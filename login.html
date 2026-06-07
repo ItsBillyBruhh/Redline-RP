@@ -143,7 +143,7 @@
 
     <h1>Admin Login</h1>
 
-    <!-- ROTATING STAFF SLOGAN -->
+    <!-- SLOGAN (THIS IS WHERE IT SHOWS) -->
     <p id="staff-slogan"></p>
 
     <input id="email" type="email" placeholder="Email">
@@ -155,7 +155,6 @@
 <!-- Firebase Browser SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
 
 <script>
     const firebaseConfig = {
@@ -181,51 +180,55 @@
             alert(err.message);
         }
     }
+</script>
 
-    /* ROTATING SLOGANS — GUARANTEED WORKING VERSION */
-    document.addEventListener("DOMContentLoaded", () => {
+<!-- ⭐ GUARANTEED-WORKING TYPING EFFECT -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
 
-        const slogans = [
-            "Integrity in Every Action.",
-            "Where Leadership Meets Responsibility.",
-            "Protecting the Experience, Not the Power.",
-            "Calm, Capable, Committed.",
-            "Staffed by Leaders, Driven by Respect.",
-            "The Standard of Professional Roleplay.",
-            "Trusted. Trained. Transparent."
-        ];
+    const slogans = [
+        "Integrity in Every Action.",
+        "Where Leadership Meets Responsibility.",
+        "Protecting the Experience, Not the Power.",
+        "Calm, Capable, Committed.",
+        "Staffed by Leaders, Driven by Respect.",
+        "The Standard of Professional Roleplay.",
+        "Trusted. Trained. Transparent."
+    ];
 
-        let sloganIndex = 0;
-        let charIndex = 0;
-        let typingSpeed = 60;
-        let eraseSpeed = 40;
-        let delayBetween = 1500;
+    let sloganIndex = 0;
+    let charIndex = 0;
+    let typingSpeed = 60;
+    let eraseSpeed = 40;
+    let delayBetween = 1500;
 
-        const sloganElement = document.getElementById("staff-slogan");
+    const sloganElement = document.getElementById("staff-slogan");
 
-        function typeSlogan() {
-            if (charIndex < slogans[sloganIndex].length) {
-                sloganElement.textContent = slogans[sloganIndex].substring(0, charIndex + 1);
-                charIndex++;
-                setTimeout(typeSlogan, typingSpeed);
-            } else {
-                setTimeout(eraseSlogan, delayBetween);
-            }
+    function typeSlogan() {
+        sloganElement.textContent = slogans[sloganIndex].substring(0, charIndex + 1);
+        charIndex++;
+
+        if (charIndex < slogans[sloganIndex].length) {
+            setTimeout(typeSlogan, typingSpeed);
+        } else {
+            setTimeout(eraseSlogan, delayBetween);
         }
+    }
 
-        function eraseSlogan() {
-            if (charIndex > 0) {
-                sloganElement.textContent = slogans[sloganIndex].substring(0, charIndex - 1);
-                charIndex--;
-                setTimeout(eraseSlogan, eraseSpeed);
-            } else {
-                sloganIndex = (sloganIndex + 1) % slogans.length;
-                setTimeout(typeSlogan, 300);
-            }
+    function eraseSlogan() {
+        sloganElement.textContent = slogans[sloganIndex].substring(0, charIndex - 1);
+        charIndex--;
+
+        if (charIndex > 0) {
+            setTimeout(eraseSlogan, eraseSpeed);
+        } else {
+            sloganIndex = (sloganIndex + 1) % slogans.length;
+            setTimeout(typeSlogan, 300);
         }
+    }
 
-        typeSlogan();
-    });
+    typeSlogan();
+});
 </script>
 
 </body>
