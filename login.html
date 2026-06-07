@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RedLine RP Admin</title>
+    <title>RedLine RP Login</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://i.ibb.co/bRgdHVyh/Untitled.png">
@@ -18,6 +18,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
 
             height: 100vh;
 
@@ -34,8 +35,8 @@
 
         .glass-panel {
             width: 90%;
-            max-width: 700px;
-            padding: 40px 25px;
+            max-width: 450px;
+            padding: 45px 30px;
 
             background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(18px);
@@ -44,8 +45,6 @@
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
 
             text-align: center;
-            margin-top: 120px;
-
             animation: fadeSlideUp 1.2s ease forwards;
             opacity: 0;
             transform: translateY(30px);
@@ -56,9 +55,31 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 15px;
+
+            animation: float 4s ease-in-out infinite, fadeIn 1.4s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
         h1 {
-            font-size: 42px;
+            font-size: 38px;
             font-weight: 900;
+            margin-bottom: 10px;
 
             background: linear-gradient(90deg, #ffffff, #ffe6f2, #ffffff);
             background-size: 200% 200%;
@@ -67,36 +88,48 @@
             animation: bgShift 6s linear infinite;
         }
 
-        #rank {
-            font-size: 20px;
-            margin-top: -10px;
+        #staff-slogan {
+            font-size: 18px;
+            margin-top: -5px;
             margin-bottom: 25px;
-            opacity: 0.85;
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.35);
+            min-height: 24px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
         }
 
-        .btn {
-            display: block;
+        input {
             width: 90%;
-            margin: 10px auto;
             padding: 14px;
+            margin: 10px 0;
             border-radius: 10px;
-            background: rgba(255,255,255,0.25);
-            border: 1px solid rgba(255,255,255,0.35);
+            border: none;
+            outline: none;
+            font-size: 16px;
+
+            background: rgba(255, 255, 255, 0.25);
             color: white;
+        }
+
+        button {
+            width: 95%;
+            padding: 14px;
+            margin-top: 15px;
+            border-radius: 10px;
+            border: none;
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
+
+            background: #5865F2;
+            color: white;
             transition: 0.2s;
         }
 
-        .btn:hover {
+        button:hover {
             transform: scale(1.05);
-            background: rgba(255,255,255,0.35);
-        }
-
-        .logout {
-            background: #E2231A;
-            border: none;
+            opacity: 0.9;
         }
     </style>
 </head>
@@ -104,12 +137,19 @@
 <body>
 
 <div class="glass-panel">
-    <h1 id="welcome">Loading...</h1>
-    <p id="rank"></p>
 
-    <div id="content"></div>
+    <!-- LOGO -->
+    <img class="logo" src="https://i.ibb.co/PZy08gcC/Icon.png">
 
-    <button class="btn logout" onclick="logout()">Logout</button>
+    <h1>Admin Login</h1>
+
+    <!-- ROTATING STAFF SLOGAN -->
+    <p id="staff-slogan"></p>
+
+    <input id="email" type="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
 </div>
 
 <!-- Firebase Browser SDK -->
@@ -118,8 +158,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
 
 <script>
-    console.log("Initializing Firebase...");
-
     const firebaseConfig = {
       apiKey: "AIzaSyBQ6Rb1-W7YnTjKM6CIk61F9k0jdn5UgTQ",
       authDomain: "redline-rp-admin.firebaseapp.com",
@@ -133,83 +171,59 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    auth.onAuthStateChanged(async user => {
-        if (!user) {
-            console.log("No user logged in, redirecting...");
-            window.location.href = "login.html";
-            return;
+    async function login() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        try {
+            const cred = await auth.signInWithEmailAndPassword(email, password);
+            window.location.href = "admin.html";
+        } catch (err) {
+            alert(err.message);
         }
+    }
 
-        console.log("User logged in:", user.uid);
+    /* ROTATING SLOGANS */
+    const slogans = [
+        "Integrity in Every Action.",
+        "Where Leadership Meets Responsibility.",
+        "Protecting the Experience, Not the Power.",
+        "Calm, Capable, Committed.",
+        "Staffed by Leaders, Driven by Respect.",
+        "The Standard of Professional Roleplay.",
+        "Trusted. Trained. Transparent."
+    ];
 
-        const doc = await db.collection("users").doc(user.uid).get();
+    let sloganIndex = 0;
+    let charIndex = 0;
+    let typingSpeed = 60;
+    let eraseSpeed = 40;
+    let delayBetween = 1500;
 
-        if (!doc.exists) {
-            console.error("Firestore profile missing for:", user.uid);
-            document.getElementById("welcome").innerText = "Profile Missing";
-            return;
-        }
+    const sloganElement = document.getElementById("staff-slogan");
 
-        const data = doc.data();
-        console.log("Loaded Firestore data:", data);
-
-        document.getElementById("welcome").innerText = "Welcome, " + data.username;
-        document.getElementById("rank").innerText = "Rank: " + data.rank;
-
-        loadDashboard(data.rank);
-    });
-
-    function loadDashboard(rank) {
-        const content = document.getElementById("content");
-        let html = "";
-
-        const roles = {
-            "Owner": [
-                "Staff Management",
-                "View All Logs",
-                "System Settings",
-                "Developer Tools",
-                "Admin Panel",
-                "Moderation Tools"
-            ],
-            "Admin": [
-                "Admin Panel",
-                "Moderation Tools",
-                "View Reports",
-                "Staff Tools"
-            ],
-            "Moderator": [
-                "Moderation Tools",
-                "View Reports"
-            ],
-            "Support": [
-                "Support Tickets",
-                "Help Requests"
-            ],
-            "Developer": [
-                "Developer Tools",
-                "System Settings",
-                "Debug Logs"
-            ]
-        };
-
-        if (roles[rank]) {
-            roles[rank].forEach(btn => {
-                html += `<button class="btn">${btn}</button>`;
-            });
+    function typeSlogan() {
+        if (charIndex < slogans[sloganIndex].length) {
+            sloganElement.innerHTML = slogans[sloganIndex].substring(0, charIndex + 1);
+            charIndex++;
+            setTimeout(typeSlogan, typingSpeed);
         } else {
-            html += `<p>No tools assigned to this rank.</p>`;
+            setTimeout(eraseSlogan, delayBetween);
         }
-
-        content.innerHTML = html;
     }
 
-    function logout() {
-        auth.signOut().then(() => {
-            localStorage.clear();
-            window.location.href = "login.html";
-        });
+    function eraseSlogan() {
+        if (charIndex > 0) {
+            sloganElement.innerHTML = slogans[sloganIndex].substring(0, charIndex - 1);
+            charIndex--;
+            setTimeout(eraseSlogan, eraseSpeed);
+        } else {
+            sloganIndex = (sloganIndex + 1) % slogans.length;
+            setTimeout(typeSlogan, 300);
+        }
     }
+
+    typeSlogan();
 </script>
 
 </body>
