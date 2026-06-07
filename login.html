@@ -13,13 +13,10 @@
             font-family: Arial, sans-serif;
             color: #fff;
             overflow: hidden;
-
             display: flex;
             justify-content: center;
             align-items: center;
-
             height: 100vh;
-
             background: linear-gradient(120deg, #ff7a7a, #ff8ed6, #6fb3ff);
             background-size: 300% 300%;
             animation: bgShift 14s ease infinite;
@@ -35,13 +32,11 @@
             width: 90%;
             max-width: 480px;
             padding: 50px 35px;
-
             background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(20px);
             border-radius: 25px;
             border: 1px solid rgba(255, 255, 255, 0.25);
             box-shadow: 0 0 35px rgba(0, 0, 0, 0.35);
-
             text-align: center;
             animation: fadeUp 1.2s ease forwards;
             opacity: 0;
@@ -49,10 +44,7 @@
         }
 
         @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .logo {
@@ -63,10 +55,7 @@
             opacity: 0;
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
+        @keyframes fadeIn { to { opacity: 1; } }
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-12px); }
@@ -77,7 +66,6 @@
             font-size: 42px;
             font-weight: 900;
             margin-bottom: 10px;
-
             background: linear-gradient(90deg, #ffffff, #ffe6f2, #ffffff);
             background-size: 200% 200%;
             -webkit-background-clip: text;
@@ -103,7 +91,6 @@
             border: none;
             outline: none;
             font-size: 17px;
-
             background: rgba(255, 255, 255, 0.25);
             color: white;
         }
@@ -117,7 +104,6 @@
             font-size: 20px;
             font-weight: bold;
             cursor: pointer;
-
             background: #5865F2;
             color: white;
             transition: 0.25s;
@@ -133,11 +119,8 @@
 <body>
 
 <div class="panel">
-
     <img class="logo" src="https://i.ibb.co/PZy08gcC/Icon.png">
-
     <h1>Admin Login</h1>
-
     <p id="staff-slogan"></p>
 
     <input id="email" type="email" placeholder="Email">
@@ -146,14 +129,12 @@
     <button onclick="login()">Login</button>
 </div>
 
-<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* Initialize Firebase AFTER DOM is ready */
     const firebaseConfig = {
       apiKey: "AIzaSyBQ6Rb1-W7YnTjKM6CIk61F9k0jdn5UgTQ",
       authDomain: "redline-rp-admin.firebaseapp.com",
@@ -166,7 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    /* Login function */
     window.login = async function () {
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
@@ -184,7 +164,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    /* Typing Slogan Effect */
     const slogans = [
         "Integrity in Every Action.",
         "Where Leadership Meets Responsibility.",
@@ -196,9 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     let i = 0, j = 0, isDeleting = false;
-    const speed = 60;
-    const eraseSpeed = 40;
-    const delay = 1500;
+    const speed = 60, eraseSpeed = 40, delay = 1500;
     const el = document.getElementById("staff-slogan");
 
     function type() {
@@ -207,7 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!isDeleting) {
             el.textContent = text.substring(0, j + 1);
             j++;
-
             if (j === text.length) {
                 isDeleting = true;
                 setTimeout(type, delay);
@@ -216,7 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             el.textContent = text.substring(0, j - 1);
             j--;
-
             if (j === 0) {
                 isDeleting = false;
                 i = (i + 1) % slogans.length;
