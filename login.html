@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RedLine RP Login</title>
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://i.ibb.co/bRgdHVyh/Untitled.png">
 
     <style>
@@ -138,12 +137,10 @@
 
 <div class="glass-panel">
 
-    <!-- LOGO -->
     <img class="logo" src="https://i.ibb.co/PZy08gcC/Icon.png">
 
     <h1>Admin Login</h1>
 
-    <!-- SLOGAN (THIS IS WHERE IT SHOWS) -->
     <p id="staff-slogan"></p>
 
     <input id="email" type="email" placeholder="Email">
@@ -152,11 +149,14 @@
     <button onclick="login()">Login</button>
 </div>
 
-<!-- Firebase Browser SDK -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    // Initialize Firebase AFTER page loads
     const firebaseConfig = {
       apiKey: "AIzaSyBQ6Rb1-W7YnTjKM6CIk61F9k0jdn5UgTQ",
       authDomain: "redline-rp-admin.firebaseapp.com",
@@ -169,7 +169,8 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    async function login() {
+    // Login function
+    window.login = async function () {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
@@ -179,13 +180,9 @@
         } catch (err) {
             alert(err.message);
         }
-    }
-</script>
+    };
 
-<!-- ⭐ GUARANTEED-WORKING TYPING EFFECT -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
+    // Typing effect
     const slogans = [
         "Integrity in Every Action.",
         "Where Leadership Meets Responsibility.",
@@ -198,9 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let sloganIndex = 0;
     let charIndex = 0;
-    let typingSpeed = 60;
-    let eraseSpeed = 40;
-    let delayBetween = 1500;
 
     const sloganElement = document.getElementById("staff-slogan");
 
@@ -209,9 +203,9 @@ document.addEventListener("DOMContentLoaded", () => {
         charIndex++;
 
         if (charIndex < slogans[sloganIndex].length) {
-            setTimeout(typeSlogan, typingSpeed);
+            setTimeout(typeSlogan, 60);
         } else {
-            setTimeout(eraseSlogan, delayBetween);
+            setTimeout(eraseSlogan, 1500);
         }
     }
 
@@ -220,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
         charIndex--;
 
         if (charIndex > 0) {
-            setTimeout(eraseSlogan, eraseSpeed);
+            setTimeout(eraseSlogan, 40);
         } else {
             sloganIndex = (sloganIndex + 1) % slogans.length;
             setTimeout(typeSlogan, 300);
