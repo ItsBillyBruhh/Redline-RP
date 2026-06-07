@@ -19,6 +19,9 @@
             background: linear-gradient(120deg, #ff7a7a, #ff8ed6, #6fb3ff);
             background-size: 300% 300%;
             animation: bgShift 14s ease infinite;
+
+            /* HIDE PAGE UNTIL AUTH CHECK */
+            display: none;
         }
 
         @keyframes bgShift {
@@ -111,10 +114,9 @@
 <div class="sidebar">
     <h2>Admin Panel</h2>
 
-    <button class="nav-btn" onclick="showSection('form1')">Staff Application Form</button>
-    <button class="nav-btn" onclick="showSection('form2')">Ban Appeal Form</button>
+    <button class="nav-btn" onclick="showSection('form1')">Civilian Applications</button>
+    <button class="nav-btn" onclick="showSection('form2')">Department Applications</button>
 
-    <!-- Future buttons -->
     <button class="nav-btn">Staff Tools</button>
     <button class="nav-btn">Logs</button>
     <button class="nav-btn">Tickets</button>
@@ -128,12 +130,12 @@
     <h1>Welcome to the Admin Dashboard</h1>
     <p id="userinfo">Loading user...</p>
 
-    <!-- FORM 1 -->
+    <!-- CIVILIAN APPLICATIONS -->
     <div id="form1" class="section">
         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd1_VrBBu2LUfmgZ8sUEga__eyxDoO829vt-RF39Jd4GZs/viewform?embedded=true"></iframe>
     </div>
 
-    <!-- FORM 2 -->
+    <!-- DEPARTMENT APPLICATIONS -->
     <div id="form2" class="section" style="display:none;">
         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd1wcCi4SFf-wsDgvu8DhS6jqI_Ab3-hFxtqzb2RFpaKU4/viewform?embedded=true"></iframe>
     </div>
@@ -156,13 +158,15 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    /* PROTECT PAGE */
+    /* HARD LOCK — NO BYPASS */
     auth.onAuthStateChanged(user => {
         if (!user) {
             window.location.href = "login.html";
             return;
         }
 
+        /* User is logged in → show page */
+        document.body.style.display = "flex";
         document.getElementById("userinfo").innerText =
             "Logged in as: " + user.email;
     });
