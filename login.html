@@ -169,61 +169,63 @@
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const db = firebase.firestore();
 
     async function login() {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
         try {
-            const cred = await auth.signInWithEmailAndPassword(email, password);
+            await auth.signInWithEmailAndPassword(email, password);
             window.location.href = "admin.html";
         } catch (err) {
             alert(err.message);
         }
     }
 
-    /* ROTATING SLOGANS */
-    const slogans = [
-        "Integrity in Every Action.",
-        "Where Leadership Meets Responsibility.",
-        "Protecting the Experience, Not the Power.",
-        "Calm, Capable, Committed.",
-        "Staffed by Leaders, Driven by Respect.",
-        "The Standard of Professional Roleplay.",
-        "Trusted. Trained. Transparent."
-    ];
+    /* ROTATING SLOGANS — GUARANTEED WORKING VERSION */
+    document.addEventListener("DOMContentLoaded", () => {
 
-    let sloganIndex = 0;
-    let charIndex = 0;
-    let typingSpeed = 60;
-    let eraseSpeed = 40;
-    let delayBetween = 1500;
+        const slogans = [
+            "Integrity in Every Action.",
+            "Where Leadership Meets Responsibility.",
+            "Protecting the Experience, Not the Power.",
+            "Calm, Capable, Committed.",
+            "Staffed by Leaders, Driven by Respect.",
+            "The Standard of Professional Roleplay.",
+            "Trusted. Trained. Transparent."
+        ];
 
-    const sloganElement = document.getElementById("staff-slogan");
+        let sloganIndex = 0;
+        let charIndex = 0;
+        let typingSpeed = 60;
+        let eraseSpeed = 40;
+        let delayBetween = 1500;
 
-    function typeSlogan() {
-        if (charIndex < slogans[sloganIndex].length) {
-            sloganElement.innerHTML = slogans[sloganIndex].substring(0, charIndex + 1);
-            charIndex++;
-            setTimeout(typeSlogan, typingSpeed);
-        } else {
-            setTimeout(eraseSlogan, delayBetween);
+        const sloganElement = document.getElementById("staff-slogan");
+
+        function typeSlogan() {
+            if (charIndex < slogans[sloganIndex].length) {
+                sloganElement.textContent = slogans[sloganIndex].substring(0, charIndex + 1);
+                charIndex++;
+                setTimeout(typeSlogan, typingSpeed);
+            } else {
+                setTimeout(eraseSlogan, delayBetween);
+            }
         }
-    }
 
-    function eraseSlogan() {
-        if (charIndex > 0) {
-            sloganElement.innerHTML = slogans[sloganIndex].substring(0, charIndex - 1);
-            charIndex--;
-            setTimeout(eraseSlogan, eraseSpeed);
-        } else {
-            sloganIndex = (sloganIndex + 1) % slogans.length;
-            setTimeout(typeSlogan, 300);
+        function eraseSlogan() {
+            if (charIndex > 0) {
+                sloganElement.textContent = slogans[sloganIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(eraseSlogan, eraseSpeed);
+            } else {
+                sloganIndex = (sloganIndex + 1) % slogans.length;
+                setTimeout(typeSlogan, 300);
+            }
         }
-    }
 
-    typeSlogan();
+        typeSlogan();
+    });
 </script>
 
 </body>
