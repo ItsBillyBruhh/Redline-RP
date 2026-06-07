@@ -129,11 +129,15 @@
     <button onclick="login()">Login</button>
 </div>
 
+<!-- Firebase MUST load BEFORE anything else -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+/* WAIT until EVERYTHING is loaded */
+window.addEventListener("load", () => {
+
+    console.log("Page fully loaded — initializing Firebase.");
 
     const firebaseConfig = {
       apiKey: "AIzaSyBQ6Rb1-W7YnTjKM6CIk61F9k0jdn5UgTQ",
@@ -147,7 +151,12 @@ document.addEventListener("DOMContentLoaded", () => {
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
+    console.log("Firebase initialized:", auth);
+
+    /* LOGIN FUNCTION */
     window.login = async function () {
+        console.log("Login button pressed.");
+
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
 
@@ -164,6 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    /* SLOGAN TYPING EFFECT */
     const slogans = [
         "Integrity in Every Action.",
         "Where Leadership Meets Responsibility.",
