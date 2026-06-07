@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+    <title>RedLine RP Admin</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/bRgdHVyh/Untitled.png">
 
     <style>
         body {
@@ -101,20 +104,22 @@
 <body>
 
 <div class="glass-panel">
-    <h1 id="welcome">Welcome</h1>
+    <h1 id="welcome">Loading...</h1>
     <p id="rank"></p>
 
-    <!-- Dynamic content loads here -->
     <div id="content"></div>
 
     <button class="btn logout" onclick="logout()">Logout</button>
 </div>
 
+<!-- Firebase Browser SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
 
 <script>
+    console.log("Initializing Firebase...");
+
     const firebaseConfig = {
       apiKey: "AIzaSyBQ6Rb1-W7YnTjKM6CIk61F9k0jdn5UgTQ",
       authDomain: "redline-rp-admin.firebaseapp.com",
@@ -130,19 +135,23 @@
 
     auth.onAuthStateChanged(async user => {
         if (!user) {
+            console.log("No user logged in, redirecting...");
             window.location.href = "login.html";
             return;
         }
 
-        const uid = user.uid;
-        const doc = await db.collection("users").doc(uid).get();
+        console.log("User logged in:", user.uid);
+
+        const doc = await db.collection("users").doc(user.uid).get();
 
         if (!doc.exists) {
-            alert("User has no Firestore profile.");
+            console.error("Firestore profile missing for:", user.uid);
+            document.getElementById("welcome").innerText = "Profile Missing";
             return;
         }
 
         const data = doc.data();
+        console.log("Loaded Firestore data:", data);
 
         document.getElementById("welcome").innerText = "Welcome, " + data.username;
         document.getElementById("rank").innerText = "Rank: " + data.rank;
@@ -152,7 +161,6 @@
 
     function loadDashboard(rank) {
         const content = document.getElementById("content");
-
         let html = "";
 
         const roles = {
