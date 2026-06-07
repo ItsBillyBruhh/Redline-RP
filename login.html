@@ -32,8 +32,8 @@
 
         .glass-panel {
             width: 90%;
-            max-width: 420px;
-            padding: 40px 25px;
+            max-width: 450px;
+            padding: 45px 30px;
 
             background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(18px);
@@ -52,16 +52,44 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        h1 {
-            font-size: 36px;
-            font-weight: 900;
+        .logo {
+            width: 140px;
+            height: auto;
             margin-bottom: 20px;
+            border-radius: 15px;
+
+            animation: float 4s ease-in-out infinite, fadeIn 1.4s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        h1 {
+            font-size: 38px;
+            font-weight: 900;
+            margin-bottom: 10px;
 
             background: linear-gradient(90deg, #ffffff, #ffe6f2, #ffffff);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             color: transparent;
             animation: bgShift 6s linear infinite;
+        }
+
+        p {
+            font-size: 16px;
+            margin-top: -5px;
+            margin-bottom: 25px;
+            color: rgba(255, 255, 255, 0.75);
         }
 
         input {
@@ -102,7 +130,12 @@
 <body>
 
 <div class="glass-panel">
+
+    <!-- LOGO -->
+    <img class="logo" src="https://i.ibb.co/PZy08gcC/Icon.png">
+
     <h1>Admin Login</h1>
+    <p>Restricted Access — Authorized Staff Only</p>
 
     <input id="email" type="email" placeholder="Email">
     <input id="password" type="password" placeholder="Password">
