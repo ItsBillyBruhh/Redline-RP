@@ -12,11 +12,9 @@
             margin: 0;
             font-family: Arial, sans-serif;
             color: #fff;
-            overflow-x: hidden;
-
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            height: 100vh;
+            overflow: hidden;
 
             background: linear-gradient(120deg, #ff7a7a, #ff8ed6, #6fb3ff);
             background-size: 300% 300%;
@@ -29,22 +27,57 @@
             100% { background-position: 0% 50%; }
         }
 
-        .container {
-            width: 95%;
-            max-width: 900px;
-            margin-top: 40px;
-            margin-bottom: 60px;
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
 
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(18px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
+        .sidebar h2 {
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .nav-btn {
+            padding: 14px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            font-size: 17px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: left;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.03);
+        }
+
+        .logout {
+            margin-top: auto;
+            background: #E2231A;
+            border: none;
+            text-align: center;
+        }
+
+        /* MAIN CONTENT */
+        .content {
+            flex: 1;
+            overflow-y: auto;
             padding: 30px;
-            box-shadow: 0 0 25px rgba(0,0,0,0.25);
         }
 
         h1 {
-            text-align: center;
             font-size: 40px;
             font-weight: 900;
             margin-bottom: 10px;
@@ -57,10 +90,9 @@
         }
 
         #userinfo {
-            text-align: center;
             font-size: 18px;
-            margin-bottom: 25px;
             opacity: 0.9;
+            margin-bottom: 25px;
         }
 
         iframe {
@@ -70,43 +102,44 @@
             border-radius: 15px;
             margin-bottom: 40px;
         }
-
-        .logout {
-            display: block;
-            width: 200px;
-            margin: 0 auto;
-            padding: 14px;
-            border-radius: 10px;
-            border: none;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-
-            background: #E2231A;
-            color: white;
-            transition: 0.2s;
-        }
-
-        .logout:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
     </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h1>Admin Dashboard</h1>
-    <p id="userinfo">Loading user...</p>
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>Admin Panel</h2>
 
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd1_VrBBu2LUfmgZ8sUEga__eyxDoO829vt-RF39Jd4GZs/viewform?embedded=true"></iframe>
+    <button class="nav-btn" onclick="showSection('form1')">Staff Application Form</button>
+    <button class="nav-btn" onclick="showSection('form2')">Ban Appeal Form</button>
 
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd1wcCi4SFf-wsDgvu8DhS6jqI_Ab3-hFxtqzb2RFpaKU4/viewform?embedded=true"></iframe>
+    <!-- Future buttons -->
+    <button class="nav-btn">Staff Tools</button>
+    <button class="nav-btn">Logs</button>
+    <button class="nav-btn">Tickets</button>
+    <button class="nav-btn">Developer Tools</button>
 
-    <button class="logout" onclick="logout()">Logout</button>
+    <button class="nav-btn logout" onclick="logout()">Logout</button>
 </div>
 
+<!-- MAIN CONTENT -->
+<div class="content">
+    <h1>Welcome to the Admin Dashboard</h1>
+    <p id="userinfo">Loading user...</p>
+
+    <!-- FORM 1 -->
+    <div id="form1" class="section">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd1_VrBBu2LUfmgZ8sUEga__eyxDoO829vt-RF39Jd4GZs/viewform?embedded=true"></iframe>
+    </div>
+
+    <!-- FORM 2 -->
+    <div id="form2" class="section" style="display:none;">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd1wcCi4SFf-wsDgvu8DhS6jqI_Ab3-hFxtqzb2RFpaKU4/viewform?embedded=true"></iframe>
+    </div>
+</div>
+
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
 
@@ -123,6 +156,7 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
+    /* PROTECT PAGE */
     auth.onAuthStateChanged(user => {
         if (!user) {
             window.location.href = "login.html";
@@ -133,10 +167,17 @@
             "Logged in as: " + user.email;
     });
 
+    /* LOGOUT */
     function logout() {
         auth.signOut().then(() => {
             window.location.href = "login.html";
         });
+    }
+
+    /* SWITCH SECTIONS */
+    function showSection(id) {
+        document.querySelectorAll(".section").forEach(sec => sec.style.display = "none");
+        document.getElementById(id).style.display = "block";
     }
 </script>
 
