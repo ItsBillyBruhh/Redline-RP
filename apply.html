@@ -8,22 +8,30 @@
     <link rel="icon" type="image/png" href="https://i.ibb.co/bRgdHVyh/Untitled.png">
 
     <style>
+        :root {
+            --glass-panel-bg: rgba(255, 255, 255, 0.05);
+            --glass-card-bg: rgba(255, 255, 255, 0.08);
+            --glass-card-hover: rgba(255, 255, 255, 0.15);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.12);
+            --blur-radius: 20px;
+            --font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            color: #fff;
+            font-family: var(--font-stack);
+            color: #ffffff;
             overflow-x: hidden;
-
-            /* Center everything */
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             min-height: 100vh;
-
-            background: linear-gradient(120deg, #ff7a7a, #ff8ed6, #6fb3ff);
+            /* Premium dark crimson & charcoal theme */
+            background: linear-gradient(135deg, #140606, #0b0b0d, #260a0a, #0f0f12);
             background-size: 300% 300%;
-            animation: bgShift 14s ease infinite;
+            animation: bgShift 18s ease infinite;
+            box-sizing: border-box;
         }
 
         @keyframes bgShift {
@@ -32,141 +40,215 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* TOPBAR */
+        /* FLOATING TOPBAR */
         .topbar {
-            width: 100%;
-            padding: 15px 0;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            position: fixed;
+            top: 20px;
+            z-index: 9999;
+            width: 95%;
+            max-width: 1500px;
+            padding: 16px 0;
+            background: rgba(15, 15, 18, 0.4);
+            backdrop-filter: blur(var(--blur-radius));
+            -webkit-backdrop-filter: blur(var(--blur-radius));
+            border-radius: 35px;
+            border: var(--glass-border);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
             display: flex;
             justify-content: center;
-            gap: 40px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 9999;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            gap: 50px;
+            transition: var(--transition-smooth);
+        }
+
+        /* SCROLL FADE UTILITY CLASS */
+        .topbar.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-25px);
         }
 
         .topbar a {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 16px;
+            font-weight: 600;
             text-decoration: none;
-            color: white;
-            animation: textGlow 3s ease-in-out infinite;
+            color: rgba(255, 255, 255, 0.75);
+            letter-spacing: 0.4px;
+            transition: var(--transition-smooth);
+            position: relative;
         }
 
-        @keyframes textGlow {
-            0% { color: #ffffff; }
-            50% { color: #ffe6f2; }
-            100% { color: #ffffff; }
+        .topbar a:hover {
+            color: #ff4d4d;
         }
 
-        /* Glass Panel Animation */
-        .glass-panel {
-            width: 90%;
+        .topbar a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff4d4d;
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+        }
+
+        .topbar a:hover::after {
+            width: 100%;
+        }
+
+        /* MAIN CONTENT WRAPPER */
+        .main-container {
+            width: 95%;
             max-width: 1100px;
-            padding: 40px 20px;
-            margin-top: 120px;
-
-            background: rgba(255, 255, 255, 0.10);
-            backdrop-filter: blur(18px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.20);
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
-
+            margin-top: 140px; 
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             opacity: 0;
-            transform: translateY(30px);
-            animation: fadeSlideUp 1.2s ease forwards;
-            text-align: center;
+            transform: translateY(15px);
+            animation: fadeUp 0.6s ease forwards;
         }
 
-        @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(30px); }
+        @keyframes fadeUp {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Header Image Animation */
-        .apply-header-img {
-            width: 80%;
-            max-width: 600px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-
-            animation: float 4s ease-in-out infinite, fadeIn 1.4s ease forwards;
-            opacity: 0;
+        /* GLASS CORE PANEL */
+        .glass-panel {
+            background: var(--glass-panel-bg);
+            backdrop-filter: blur(var(--blur-radius));
+            -webkit-backdrop-filter: blur(var(--blur-radius));
+            border-radius: 28px;
+            border: var(--glass-border);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+            padding: 50px 40px;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* HEADER IMAGE SPLASH */
+        .apply-header-img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.5));
+            animation: float 6s ease-in-out infinite;
         }
 
         @keyframes float {
-            0% { transform: translateY(0px); }
+            0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
         }
 
         p {
-            font-size: 18px;
+            font-size: 20px;
+            margin: 0 0 35px 0;
             color: rgba(255, 255, 255, 0.75);
-            margin-bottom: 30px;
+            font-weight: 400;
+            letter-spacing: 0.2px;
         }
 
+        /* CTA BUTTON CONTAINERS */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+
+        .discord-btn, .roblox-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 38px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 700;
+            transition: var(--transition-smooth);
+            background: rgba(255, 255, 255, 0.06);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .discord-btn:hover, .roblox-btn:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 77, 77, 0.2);
+            border-color: rgba(255, 77, 77, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 77, 77, 0.15);
+        }
+
+        /* INTEGRATED APPLICATION IFRAME */
         iframe {
             width: 100%;
             max-width: 900px;
             height: 900px;
             border: none;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.15);
-
-            animation: fadeIn 1.6s ease forwards;
-            opacity: 0;
+            border-radius: 18px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
         }
 
-        /* BUTTONS */
-        .discord-btn {
-            background:#5865F2;
-            color:white;
-            padding:12px 20px;
-            border-radius:10px;
-            font-weight:bold;
-            text-decoration:none;
-            display:inline-block;
-            margin-bottom:20px;
-            transition:0.2s;
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            margin: 25px 0 35px 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.5px;
         }
 
-        .discord-btn:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
-
-        .roblox-btn {
-            background:#E2231A;
-            color:white;
-            padding:12px 20px;
-            border-radius:10px;
-            font-weight:bold;
-            text-decoration:none;
-            display:inline-block;
-            margin-bottom:25px;
-            transition:0.2s;
-        }
-
-        .roblox-btn:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
+        /* RESPONSIVE BREAKPOINTS */
+        @media (max-width: 650px) {
+            .topbar {
+                gap: 20px;
+                padding: 12px 0;
+            }
+            .topbar a {
+                font-size: 13px;
+            }
+            .main-container {
+                margin-top: 120px;
+            }
+            .glass-panel {
+                padding: 35px 20px;
+            }
+            p {
+                font-size: 17px;
+            }
+            .btn-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 14px;
+            }
+            .discord-btn, .roblox-btn {
+                width: 100%;
+                max-width: 400px;
+                box-sizing: border-box;
+            }
+            iframe {
+                height: 700px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<!-- TOPBAR WITH ANIMATED TEXT -->
+<!-- FLOATING TOPBAR -->
 <div class="topbar">
     <a href="home.html">Home</a>
     <a href="apply.html">Civilian Application</a>
@@ -174,28 +256,50 @@
     <a href="departments.html">Departments</a>
 </div>
 
-<div class="glass-panel">
+<!-- COMPONENT MAIN SECTION WRAPPER -->
+<div class="main-container">
 
-    <!-- Animated Header Image -->
-    <img class="apply-header-img" src="https://i.ibb.co/d4bcyHwp/2.png" alt="Apply to RedLine RP">
+    <!-- COHESIVE MAIN CARD -->
+    <div class="glass-panel">
 
-    <p>The best roleplay server you’ll ever experience inside San Aurie.</p>
+        <!-- Header Splash Artwork -->
+        <img class="apply-header-img" src="https://i.ibb.co/d4bcyHwp/2.png" alt="Apply to RedLine RP">
 
-    <!-- DISCORD REQUIRED -->
-    <a class="discord-btn" href="https://discord.gg/EgQfVurNMZ" target="_blank">
-        Join Our Discord (Required)
-    </a>
+        <p>The best roleplay server you’ll ever experience inside San Aurie.</p>
 
-    <!-- ROBLOX GROUP REQUIRED -->
-    <a class="roblox-btn" href="https://www.roblox.com/communities/668533941/RedLine-RP-Community#!/about" target="_blank">
-        Join Our Roblox Group (Required)
-    </a>
+        <!-- CTA REQUIREMENTS WRAPPER -->
+        <div class="btn-container">
+            <a class="discord-btn" href="https://discord.gg/EgQfVurNMZ" target="_blank">
+                Join Our Discord (Required)
+            </a>
+            <a class="roblox-btn" href="https://www.roblox.com/communities/668533941/RedLine-RP-Community#!/about" target="_blank">
+                Join Our Roblox Group (Required)
+            </a>
+        </div>
 
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScYhl_lUKsxTnMIzGH7KmmZYo0Cvm9ho8VwM4WOxSpF5zypOQ/viewform?embedded=true"></iframe>
+        <!-- FORM EMISSION STAGE -->
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScYhl_lUKsxTnMIzGH7KmmZYo0Cvm9ho8VwM4WOxSpF5zypOQ/viewform?embedded=true"></iframe>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    &copy; 2026 RedLine RP &bull; All Rights Reserved
 </div>
 
 <script>
-    /* No music — only announcement logic if needed later */
+    /* SCROLL CONTROLLER FOR TOP BAR FADE */
+    const topbar = document.querySelector(".topbar");
+    const scrollThreshold = 100; 
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > scrollThreshold) {
+            topbar.classList.add("hidden");
+        } else {
+            topbar.classList.remove("hidden");
+        }
+    });
 </script>
 
 </body>
