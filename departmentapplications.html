@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Department Applications</title>
+    <title>RedLine RP - Home</title>
 
     <link rel="icon" type="image/png" href="https://i.ibb.co/bRgdHVyh/Untitled.png">
 
@@ -15,7 +15,7 @@
             --logo-amber: #ffe094;
             
             --glass-panel-bg: rgba(13, 9, 20, 0.78);
-            --glass-card-bg: rgba(255, 255, 255, 0.04);
+            --glass-card-bg: rgba(255, 255, 255, 0.03);
             --glass-border: 1px solid rgba(255, 255, 255, 0.1);
             --font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -30,7 +30,6 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            
             background: linear-gradient(-45deg, var(--logo-red), #b0005a, var(--logo-blue), var(--logo-pink));
             background-size: 400% 400%;
             animation: flowingGradient 12s ease infinite;
@@ -43,7 +42,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* FLOATING TOPBAR */
         .topbar {
             position: fixed;
             top: 20px;
@@ -100,12 +98,14 @@
             width: 100%;
         }
 
-        /* MAIN ASYMMETRIC SPLIT LAYOUT */
         .main-container {
             width: 95%;
             max-width: 1400px;
-            margin-top: 130px; 
+            margin-top: 130px;
             margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeUp 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
@@ -115,136 +115,226 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .split-layout {
-            display: grid;
-            grid-template-columns: 1fr 1.3fr;
-            gap: 30px;
-            align-items: start;
-            width: 100%;
-        }
-
-        /* LEFT SIDEBAR PANEL */
-        .info-panel {
-            background: var(--glass-panel-bg);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-radius: 24px;
-            border: var(--glass-border);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
-            padding: 40px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            position: sticky;
-            top: 110px;
-        }
-
-        .status-pill {
-            align-self: flex-start;
-            background: rgba(255, 30, 70, 0.15);
-            border: 1px solid var(--logo-red);
-            color: #ffb3bf;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .apply-header-img {
-            width: 100%;
+        .alert-banner {
+            background: rgba(13, 9, 20, 0.6);
+            border: 1px solid rgba(255, 224, 148, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 14px 24px;
             border-radius: 16px;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             transition: var(--transition-smooth);
         }
 
-        .info-panel:hover .apply-header-img {
-            transform: scale(1.02);
+        .alert-banner.closed {
+            opacity: 0;
+            transform: scale(0.95);
+            margin-bottom: -70px;
+            pointer-events: none;
+            position: absolute;
         }
 
-        p.tagline {
-            font-size: 22px;
-            line-height: 1.4;
-            margin: 0;
-            color: #ffffff;
+        .alert-message {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--logo-amber);
+            letter-spacing: 0.2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            font-size: 18px;
             font-weight: 700;
-            letter-spacing: -0.5px;
+            padding: 0;
+            line-height: 1;
+            transition: var(--transition-smooth);
         }
 
-        .btn-container {
+        .alert-close:hover {
+            color: #ffffff;
+        }
+
+        .hero-panel {
+            background: var(--glass-panel-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 28px;
+            border: var(--glass-border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            padding: 60px 40px;
+            text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            width: 100%;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .discord-btn, .roblox-btn {
+        .brand-logo {
+            height: 100px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.5));
+            transition: var(--transition-smooth);
+        }
+
+        .hero-panel:hover .brand-logo {
+            transform: scale(1.05) rotate(-1deg);
+        }
+
+        h1 {
+            font-size: 58px;
+            margin: 0 0 14px 0;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            background: #ffffff;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        }
+
+        p.subtitle {
+            font-size: 20px;
+            margin: 0 0 35px 0;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            max-width: 600px;
+            line-height: 1.4;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-primary, .btn-secondary {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 16px 24px;
+            padding: 16px 32px;
             border-radius: 14px;
             text-decoration: none;
             font-size: 14px;
             font-weight: 700;
             transition: var(--transition-smooth);
-            color: white;
-            box-sizing: border-box;
-            width: 100%;
+            letter-spacing: 0.3px;
         }
 
-        .discord-btn {
+        .btn-primary {
             background: linear-gradient(135deg, #5865F2, #404eed);
+            color: #ffffff;
+            box-shadow: 0 4px 20px rgba(88, 101, 242, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
         }
 
-        .discord-btn:hover {
+        .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.5);
+            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.6);
             filter: brightness(1.1);
         }
 
-        .roblox-btn {
+        .btn-secondary {
             background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .roblox-btn:hover {
+        .btn-secondary:hover {
             transform: translateY(-3px);
             background: rgba(255, 255, 255, 0.12);
             border-color: rgba(255, 255, 255, 0.3);
             box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
         }
 
-        /* RIGHT FORM PANEL */
-        .form-panel {
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            width: 100%;
+        }
+
+        .dash-card {
             background: var(--glass-panel-bg);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border-radius: 24px;
             border: var(--glass-border);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
-            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            padding: 35px 30px;
             box-sizing: border-box;
-            width: 100%;
+            transition: var(--transition-smooth);
+        }
+
+        .dash-card:hover {
+            transform: translateY(-4px);
+            background: rgba(13, 9, 20, 0.88);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header-title {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 22px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .dashboard-grid .dash-card:nth-child(1) .card-header-title { color: var(--logo-blue); }
+        .dashboard-grid .dash-card:nth-child(2) .card-header-title { color: var(--logo-pink); }
+        .dashboard-grid .dash-card:nth-child(3) .card-header-title { color: var(--logo-amber); }
+
+        .row-item {
+            background: var(--glass-card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 12px;
+            transition: var(--transition-smooth);
             display: flex;
-            flex-direction: column;
+            align-items: center;
         }
 
-        iframe {
-            width: 100%;
-            height: 850px;
-            border: none;
-            border-radius: 16px;
-            background: rgba(0, 0, 0, 0.2);
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
+        .row-item:last-child {
+            margin-bottom: 0;
         }
 
-        /* FOOTER */
+        .dash-card:hover .row-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+
+        .dashboard-grid .dash-card:nth-child(1) .row-item:hover {
+            transform: translateX(4px);
+            border-left: 3px solid var(--logo-blue);
+        }
+
+        .dashboard-grid .dash-card:nth-child(2) .row-item:hover {
+            transform: translateX(4px);
+            border-left: 3px solid var(--logo-pink);
+        }
+
+        .dashboard-grid .dash-card:nth-child(3) .row-item:hover {
+            transform: translateX(4px);
+            border-left: 3px solid var(--logo-amber);
+        }
+
         .footer {
             text-align: center;
             margin: auto 0 35px 0;
@@ -255,22 +345,19 @@
             letter-spacing: 0.5px;
         }
 
-        /* RESPONSIVE BREAKPOINTS */
-        @media (max-width: 1024px) {
-            .split-layout {
+        @media (max-width: 1150px) {
+            .dashboard-grid {
                 grid-template-columns: 1fr;
-                gap: 25px;
+                gap: 20px;
             }
-            .info-panel {
-                position: relative;
-                top: 0;
-                padding: 30px;
+            h1 {
+                font-size: 46px;
             }
-            .form-panel {
-                padding: 15px;
+            p.subtitle {
+                font-size: 18px;
             }
-            iframe {
-                height: 800px;
+            .hero-panel {
+                padding: 45px 30px;
             }
         }
 
@@ -287,11 +374,13 @@
             .main-container {
                 margin-top: 110px;
             }
-            p.tagline {
-                font-size: 19px;
+            .cta-group {
+                flex-direction: column;
+                width: 100%;
             }
-            iframe {
-                height: 700px;
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                box-sizing: border-box;
             }
         }
     </style>
@@ -299,7 +388,6 @@
 
 <body>
 
-<!-- FLOATING TOPBAR -->
 <div class="topbar">
     <a href="home.html">Home</a>
     <a href="civilianapplication.html">Civilian Application</a>
@@ -307,46 +395,64 @@
     <a href="departments.html">Departments</a>
 </div>
 
-<!-- COMPONENT MAIN SECTION WRAPPER -->
 <div class="main-container">
 
-    <!-- MODERN SIDE-BY-SIDE SPLIT ARCHITECTURE -->
-    <div class="split-layout">
+    <div class="alert-banner" id="announcementBanner">
+        <div class="alert-message">
+            <span>Waiting for private servers, feel free to apply for civilian!</span>
+        </div>
+        <button class="alert-close" onclick="closeBanner()">&times;</button>
+    </div>
+
+    <div class="hero-panel">
+        <img class="brand-logo" src="https://i.ibb.co/bRgdHVyh/Untitled.png" alt="RedLine RP Logo">
+        <h1>Welcome to RedLine RP</h1>
+        <p class="subtitle">The best roleplay server you’ll ever experience inside San Aurie.</p>
         
-        <!-- LEFT BRANDING & REQUIREMENTS OVERVIEW -->
-        <div class="info-panel">
-            <div class="status-pill">Applications Open</div>
-            
-            <img class="apply-header-img" src="https://i.ibb.co/d4bcyHwp/2.png" alt="Apply to RedLine RP">
-            
-            <p class="tagline">The best roleplay server you’ll ever experience inside San Aurie.</p>
-            
-            <div class="btn-container">
-                <a class="discord-btn" href="https://discord.gg/EgQfVurNMZ" target="_blank">
-                    Join Our Discord (Required)
-                </a>
-                <a class="roblox-btn" href="https://www.roblox.com/communities/668533941/RedLine-RP-Community#!/about" target="_blank">
-                    Join Our Roblox Group (Required)
-                </a>
+        <div class="cta-group">
+            <a class="btn-primary" href="https://discord.gg/EgQfVurNMZ" target="_blank">Join Our Discord</a>
+            <a class="btn-secondary" href="https://www.roblox.com/communities/668533941/RedLine-RP-Community#!/about" target="_blank">Join Our Roblox Group</a>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+
+        <div class="dash-card">
+            <div class="card-header-title">What We Offer</div>
+            <div class="dash-content-list">
+                <div class="row-item">High-quality roleplay experiences</div>
+                <div class="row-item">Active staff & fair moderation</div>
+                <div class="row-item">Events, updates, and community fun</div>
             </div>
         </div>
 
-        <!-- RIGHT ENGAGEMENT APPLICATION ZONE -->
-        <div class="form-panel">
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeYe7aBq6uYTyNYTqWzAO8oJ3tLgUMLWhdTZNIcc7Rzl3uRRA/viewform?embedded=true"></iframe>
+        <div class="dash-card">
+            <div class="card-header-title">Departments</div>
+            <div class="dash-content-list">
+                <div class="row-item">San Aurie Metropolitan Police</div>
+                <div class="row-item">San Aurie Fire & Rescue</div>
+                <div class="row-item">San Aurie DOT Services</div>
+            </div>
+        </div>
+
+        <div class="dash-card">
+            <div class="card-header-title">Why Choose RedLine RP?</div>
+            <div class="dash-content-list">
+                <div class="row-item">Safe & friendly environment</div>
+                <div class="row-item">Beginner-friendly roleplay</div>
+                <div class="row-item">Custom systems & features</div>
+            </div>
         </div>
 
     </div>
 
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
     &copy; 2026 RedLine RP &bull; All Rights Reserved
 </div>
 
 <script>
-    /* SCROLL CONTROLLER FOR TOP BAR FADE */
     const topbar = document.querySelector(".topbar");
     const scrollThreshold = 100; 
 
@@ -357,6 +463,10 @@
             topbar.classList.remove("hidden");
         }
     });
+
+    function closeBanner() {
+        document.getElementById("announcementBanner").classList.add("closed");
+    }
 </script>
 
 </body>
