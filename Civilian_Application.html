@@ -9,11 +9,13 @@
 
     <style>
         :root {
-            --glass-panel-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.12);
-            --blur-radius: 20px;
+            --glass-panel-bg: rgba(15, 11, 11, 0.6);
+            --glass-card-inner: rgba(255, 255, 255, 0.03);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --accent-glow: rgba(255, 77, 77, 0.15);
+            --blur-radius: 24px;
             --font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         body {
@@ -25,50 +27,40 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #140606, #0b0b0d, #260a0a, #0f0f12);
-            background-size: 300% 300%;
-            animation: bgShift 18s ease infinite;
+            background: radial-gradient(circle at 50% 0%, #2a0b0b 0%, #09090b 70%);
+            background-color: #09090b;
             box-sizing: border-box;
         }
 
-        @keyframes bgShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* FLOATING TOPBAR */
+        /* FIXED STICKY TOPBAR */
         .topbar {
             position: fixed;
-            top: 20px;
+            top: 0;
+            left: 0;
+            width: 100%;
             z-index: 9999;
-            width: 95%;
-            max-width: 1500px;
-            padding: 16px 0;
-            background: rgba(15, 15, 18, 0.4);
-            backdrop-filter: blur(var(--blur-radius));
-            -webkit-backdrop-filter: blur(var(--blur-radius));
-            border-radius: 35px;
-            border: var(--glass-border);
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
+            padding: 20px 0;
+            background: rgba(9, 9, 11, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: var(--glass-border);
             display: flex;
             justify-content: center;
-            gap: 50px;
+            gap: 40px;
             transition: var(--transition-smooth);
         }
 
+        /* Smooth Hide/Show Utility Styles */
         .topbar.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(-25px);
+            transform: translateY(-100%);
         }
 
         .topbar a {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.75);
-            letter-spacing: 0.4px;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 0.5px;
             transition: var(--transition-smooth);
             position: relative;
         }
@@ -81,11 +73,12 @@
             content: '';
             position: absolute;
             bottom: -6px;
-            left: 0;
+            left: 50%;
             width: 0;
             height: 2px;
             background: #ff4d4d;
             transition: var(--transition-smooth);
+            transform: translateX(-50%);
             border-radius: 2px;
         }
 
@@ -93,19 +86,15 @@
             width: 100%;
         }
 
-        /* NEW LAYOUT GRID WRAPPER */
+        /* MAIN APP HUB CONTAINER */
         .main-container {
-            width: 95%;
-            max-width: 1400px;
-            margin-top: 130px; 
-            margin-bottom: 40px;
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 30px;
-            align-items: start;
+            width: 92%;
+            max-width: 1000px;
+            margin-top: 120px; 
+            margin-bottom: 50px;
             opacity: 0;
-            transform: translateY(15px);
-            animation: fadeUp 0.6s ease forwards;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
             box-sizing: border-box;
         }
 
@@ -113,156 +102,179 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* LEFT SIDEBAR PANEL (STICKY CONTEXT) */
-        .sidebar-panel {
+        /* UNIFIED HUB WORKSPACE */
+        .workspace-hub {
             background: var(--glass-panel-bg);
             backdrop-filter: blur(var(--blur-radius));
             -webkit-backdrop-filter: blur(var(--blur-radius));
             border-radius: 24px;
             border: var(--glass-border);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
-            padding: 40px 30px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: sticky;
-            top: 110px; /* Aligns smoothly under navigation bar when scrolling */
-        }
-
-        /* RIGHT FORM PANEL */
-        .form-panel {
-            background: var(--glass-panel-bg);
-            backdrop-filter: blur(var(--blur-radius));
-            -webkit-backdrop-filter: blur(var(--blur-radius));
-            border-radius: 24px;
-            border: var(--glass-border);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
-            padding: 24px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            padding: 35px;
             box-sizing: border-box;
+        }
+
+        /* HORIZONTAL INTEGRATED INFOBAR */
+        .hub-header-zone {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            background: var(--glass-card-inner);
+            border: var(--glass-border);
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+        }
+
+        .branding-meta {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .apply-header-img {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+        }
+
+        .text-details {
             display: flex;
             flex-direction: column;
+            gap: 6px;
         }
 
-        /* IMAGES & TYPOGRAPHY WITH RETAINED STYLES */
-        .apply-header-img {
-            width: 100%;
-            max-width: 320px;
-            border-radius: 14px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+        .text-details h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(120deg, #ffffff, #ffb3b3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p {
-            font-size: 16px;
-            line-height: 1.5;
-            margin: 0 0 30px 0;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 15px;
+            line-height: 1.4;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.6);
             font-weight: 400;
         }
 
-        /* STACKED BUTTON ENVIRONMENT FOR SIDEBAR */
+        /* COMPACT RIGHT-ALIGNED ACTION STACK */
         .btn-container {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            width: 100%;
+            gap: 10px;
+            min-width: 280px;
         }
 
         .discord-btn, .roblox-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 15px 24px;
-            border-radius: 12px;
+            padding: 12px 20px;
+            border-radius: 10px;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
+            letter-spacing: 0.3px;
             transition: var(--transition-smooth);
-            background: rgba(255, 255, 255, 0.05);
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(5px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             box-sizing: border-box;
             width: 100%;
         }
 
-        .discord-btn:hover, .roblox-btn:hover {
-            transform: translateY(-2px);
-            background: rgba(255, 77, 77, 0.18);
-            border-color: rgba(255, 77, 77, 0.35);
-            box-shadow: 0 6px 20px rgba(255, 77, 77, 0.15);
+        .discord-btn {
+            background: #5865F2;
+            box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
         }
 
-        /* CLEAN EMBED ZONE */
+        .discord-btn:hover {
+            background: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
+        }
+
+        .roblox-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .roblox-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* FULL BREATHING AREA FOR IFRAME */
+        .form-stage {
+            position: relative;
+            width: 100%;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #111113;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
         iframe {
             width: 100%;
-            height: 880px;
+            height: 900px;
             border: none;
-            border-radius: 16px;
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.5);
+            display: block;
         }
 
         /* FOOTER */
         .footer {
             text-align: center;
-            margin: 20px 0 30px 0;
+            margin: auto 0 30px 0;
             font-size: 13px;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.35);
+            color: rgba(255, 255, 255, 0.3);
             letter-spacing: 0.5px;
         }
 
-        /* RESPONSIVE LAYOUT TRANSLATION */
-        @media (max-width: 950px) {
-            .main-container {
-                grid-template-columns: 1fr;
-                margin-top: 110px;
-                gap: 25px;
+        /* CLEAN RESPONSIVE WRAPPING BREAKPOINTS */
+        @media (max-width: 900px) {
+            .hub-header-zone {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 25px;
+                gap: 20px;
             }
-            .sidebar-panel {
-                position: relative;
-                top: 0;
-                padding: 35px 24px;
-            }
-            .apply-header-img {
-                max-width: 260px;
+            .branding-meta {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
             }
             .btn-container {
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-            .discord-btn, .roblox-btn {
-                flex: 1;
-                min-width: 240px;
+                min-width: 100%;
             }
             iframe {
                 height: 750px;
             }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 650px) {
             .topbar {
                 gap: 20px;
-                padding: 12px 0;
+                padding: 15px 10px;
             }
             .topbar a {
                 font-size: 13px;
             }
-            .btn-container {
-                flex-direction: column;
+            .workspace-hub {
+                padding: 15px;
             }
-            .discord-btn, .roblox-btn {
-                width: 100%;
+            .text-details h1 {
+                font-size: 20px;
             }
         }
     </style>
@@ -270,38 +282,45 @@
 
 <body>
 
-<!-- FLOATING TOPBAR -->
+<!-- FIXED NAVIGATION SYSTEM -->
 <div class="topbar">
-    <a href="home.html">Home</a>
+    <a href="Home.html">Home</a>
     <a href="Civilian_Application.html">Civilian Application</a>
-    <a href="departmentapplications.html">Department Applications</a>
-    <a href="departments.html">Departments</a>
+    <a href="Department_Applications.html">Department Applications</a>
+    <a href="Departments.html">Departments</a>
 </div>
 
-<!-- DUAL COLUMN LAYOUT WRAPPER -->
+<!-- CENTRAL INTERFACE APP CANVASES -->
 <div class="main-container">
 
-    <!-- LEFT STICKY SIDEBAR PANEL -->
-    <div class="sidebar-panel">
-        <!-- Artwork -->
-        <img class="apply-header-img" src="https://i.ibb.co/d4bcyHwp/2.png" alt="Apply to RedLine RP">
+    <div class="workspace-hub">
+        
+        <!-- HEADER MANAGEMENT PROFILE BOX -->
+        <div class="hub-header-zone">
+            <div class="branding-meta">
+                <img class="apply-header-img" src="https://i.ibb.co/d4bcyHwp/2.png" alt="RedLine RP Design Asset">
+                <div class="text-details">
+                    <h1>Civilian Entry Portal</h1>
+                    <p>The best roleplay server you’ll ever experience inside San Aurie.</p>
+                </div>
+            </div>
 
-        <p>The best roleplay server you’ll ever experience inside San Aurie.</p>
-
-        <!-- Requirements Action Stack -->
-        <div class="btn-container">
-            <a class="discord-btn" href="https://discord.gg/EgQfVurNMZ" target="_blank">
-                Join Our Discord (Required)
-            </a>
-            <a class="roblox-btn" href="https://www.roblox.com/communities/668533941/RedLine-RP-Community#!/about" target="_blank">
-                Join Our Roblox Group (Required)
-            </a>
+            <!-- COMMUNITY VERIFICATION STACKS -->
+            <div class="btn-container">
+                <a class="discord-btn" href="https://discord.gg/EgQfVurNMZ" target="_blank">
+                    Join Our Discord (Required)
+                </a>
+                <a class="roblox-btn" href="https://www.roblox.com/communities/668533941/RedLine-RP-Community#!/about" target="_blank">
+                    Join Our Roblox Group (Required)
+                </a>
+            </div>
         </div>
-    </div>
 
-    <!-- RIGHT COMPONENT PANEL (FORM APPARATUS) -->
-    <div class="form-panel">
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScYhl_lUKsxTnMIzGH7KmmZYo0Cvm9ho8VwM4WOxSpF5zypOQ/viewform?embedded=true"></iframe>
+        <!-- FORM EMISSION ENVIRONMENT -->
+        <div class="form-stage">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScYhl_lUKsxTnMIzGH7KmmZYo0Cvm9ho8VwM4WOxSpF5zypOQ/viewform?embedded=true"></iframe>
+        </div>
+
     </div>
 
 </div>
@@ -312,16 +331,17 @@
 </div>
 
 <script>
-    /* SCROLL CONTROLLER FOR TOP BAR FADE */
+    /* SMART SCROLL DIRECTIONS NAVIGATION CONTROLLER */
+    let lastScrollY = window.scrollY;
     const topbar = document.querySelector(".topbar");
-    const scrollThreshold = 100; 
 
     window.addEventListener("scroll", () => {
-        if (window.scrollY > scrollThreshold) {
+        if (window.scrollY > lastScrollY && window.scrollY > 80) {
             topbar.classList.add("hidden");
         } else {
             topbar.classList.remove("hidden");
         }
+        lastScrollY = window.scrollY;
     });
 </script>
 
