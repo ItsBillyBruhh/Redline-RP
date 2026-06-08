@@ -3,24 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Departments</title>
+    <title>Departments | RedLine RP</title>
 
     <link rel="icon" type="image/png" href="https://i.ibb.co/bRgdHVyh/Untitled.png">
 
     <style>
+        :root {
+            --glass-panel-bg: rgba(255, 255, 255, 0.05);
+            --glass-card-bg: rgba(255, 255, 255, 0.08);
+            --glass-card-hover: rgba(255, 255, 255, 0.15);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.12);
+            --blur-radius: 20px;
+            --font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            color: #fff;
+            font-family: var(--font-stack);
+            color: #ffffff;
             overflow-x: hidden;
-
             display: flex;
             flex-direction: column;
             align-items: center;
-
-            background: linear-gradient(120deg, #ff7a7a, #ff8ed6, #6fb3ff);
+            min-height: 100vh;
+            /* Same premium dark crimson & charcoal theme */
+            background: linear-gradient(135deg, #140606, #0b0b0d, #260a0a, #0f0f12);
             background-size: 300% 300%;
-            animation: bgShift 14s ease infinite;
+            animation: bgShift 18s ease infinite;
+            box-sizing: border-box;
         }
 
         @keyframes bgShift {
@@ -29,129 +40,193 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* TOPBAR */
+        /* FLOATING TOPBAR */
         .topbar {
-            width: 100%;
-            padding: 15px 0;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
+            position: fixed;
+            top: 20px;
+            z-index: 9999;
+            width: 95%;
+            max-width: 1500px;
+            padding: 16px 0;
+            background: rgba(15, 15, 18, 0.4);
+            backdrop-filter: blur(var(--blur-radius));
+            -webkit-backdrop-filter: blur(var(--blur-radius));
+            border-radius: 35px;
+            border: var(--glass-border);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
             display: flex;
             justify-content: center;
-            gap: 40px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 99999;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            gap: 50px;
+            transition: var(--transition-smooth);
+        }
+
+        /* SCROLL FADE UTILITY CLASS */
+        .topbar.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-25px);
         }
 
         .topbar a {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 16px;
+            font-weight: 600;
             text-decoration: none;
-            color: white;
-            animation: textGlow 3s ease-in-out infinite;
+            color: rgba(255, 255, 255, 0.75);
+            letter-spacing: 0.4px;
+            transition: var(--transition-smooth);
+            position: relative;
         }
 
-        @keyframes textGlow {
-            0% { color: #ffffff; }
-            50% { color: #ffe6f2; }
-            100% { color: #ffffff; }
+        .topbar a:hover {
+            color: #ff4d4d;
+        }
+
+        .topbar a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff4d4d;
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+        }
+
+        .topbar a:hover::after {
+            width: 100%;
+        }
+
+        /* MAIN WRAPPER WITH FADE UP */
+        .main-container {
+            width: 95%;
+            max-width: 1400px;
+            margin-top: 140px; 
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* HERO SECTION */
         .hero {
-            margin-top: 160px;
             text-align: center;
-            animation: fadeSlideUp 1.2s ease forwards;
-            opacity: 0;
-        }
-
-        @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
-            font-size: 60px;
-            font-weight: 900;
-            background: linear-gradient(90deg, #ffffff, #ffe6f2, #ffffff);
-            background-size: 200% 200%;
+            font-size: 56px;
+            margin: 0 0 12px 0;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 60%, #ffb3b3 100%);
             -webkit-background-clip: text;
-            color: transparent;
-            animation: bgShift 6s linear infinite;
+            -webkit-text-fill-color: transparent;
         }
 
         p.subtitle {
             font-size: 22px;
-            margin-top: -10px;
-            color: rgba(255, 255, 255, 0.85);
+            margin: 0;
+            color: rgba(255, 255, 255, 0.75);
+            font-weight: 400;
         }
 
-        /* DEPARTMENT CARDS */
+        /* DEPARTMENT GRID */
         .dept-container {
-            margin-top: 40px;
-            width: 90%;
-            max-width: 1200px;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 30px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
         }
 
         .dept-card {
-            width: 300px;
-            padding: 25px;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            text-align: center;
-            transition: 0.3s;
-            animation: fadeIn 1.4s ease forwards, float 4s ease-in-out infinite;
-            opacity: 0;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+            background: var(--glass-panel-bg);
+            backdrop-filter: blur(var(--blur-radius));
+            -webkit-backdrop-filter: blur(var(--blur-radius));
+            border-radius: 28px;
+            border: var(--glass-border);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+            padding: 40px 35px;
+            box-sizing: border-box;
+            transition: var(--transition-smooth);
         }
 
         .dept-card:hover {
-            transform: scale(1.07);
-            background: rgba(255, 255, 255, 0.18);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.35);
+            transform: translateY(-5px);
+            background: var(--glass-card-hover);
+            border-color: rgba(255, 77, 77, 0.3);
+            box-shadow: 0 15px 35px rgba(255, 77, 77, 0.1);
         }
 
         .dept-title {
             font-size: 26px;
-            font-weight: bold;
-            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 14px;
+            transition: var(--transition-smooth);
+        }
+
+        .dept-card:hover .dept-title {
+            color: #ff4d4d;
         }
 
         .dept-desc {
             font-size: 16px;
-            opacity: 0.85;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.75);
+            font-weight: 400;
         }
 
+        /* FOOTER */
         .footer {
             text-align: center;
-            margin: 60px 0 20px 0;
+            margin: 25px 0 35px 0;
             font-size: 14px;
-            opacity: 0.7;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        /* RESPONSIVE BREAKPOINTS */
+        @media (max-width: 1100px) {
+            .dept-container {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            h1 {
+                font-size: 44px;
+            }
+            p.subtitle {
+                font-size: 19px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .topbar {
+                gap: 20px;
+                padding: 12px 0;
+            }
+            .topbar a {
+                font-size: 13px;
+            }
+            .main-container {
+                margin-top: 120px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<!-- TOPBAR -->
+<!-- FLOATING TOPBAR -->
 <div class="topbar">
     <a href="home.html">Home</a>
     <a href="apply.html">Civilian Application</a>
@@ -159,40 +234,60 @@
     <a href="departments.html">Departments</a>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-    <h1>Our Departments</h1>
-    <p class="subtitle">Choose your path in San Aurie.</p>
+<!-- MAIN WRAPPER CONTAINER -->
+<div class="main-container">
+
+    <!-- HERO HEADER -->
+    <div class="hero">
+        <h1>Our Departments</h1>
+        <p class="subtitle">Choose your path in San Aurie.</p>
+    </div>
+
+    <!-- DEPARTMENT GRID -->
+    <div class="dept-container">
+
+        <div class="dept-card">
+            <div class="dept-title">Civilian (CIV)</div>
+            <div class="dept-desc">The heart of San Aurie. Create stories, explore the city, and shape the world around you.</div>
+        </div>
+
+        <div class="dept-card">
+            <div class="dept-title">San Aurie Fire & Rescue (SAFR)</div>
+            <div class="dept-desc">Provides expert fire suppression, critical emergency medical response, and tactical rescue operations across the city.</div>
+        </div>
+
+        <div class="dept-card">
+            <div class="dept-title">San Aurie Metropolitan Police Department (SAMPD)</div>
+            <div class="dept-desc">Maintains public safety, proactively enforces laws, and responds dynamically to emergencies throughout San Aurie.</div>
+        </div>
+
+        <div class="dept-card">
+            <div class="dept-title">San Aurie Department of Transportation (SADOT)</div>
+            <div class="dept-desc">Handles towing logistics, continuous road maintenance, active traffic control, and crucial city infrastructure support.</div>
+        </div>
+
+    </div>
+
 </div>
 
-<!-- DEPARTMENT CARDS -->
-<div class="dept-container">
-
-    <div class="dept-card">
-        <div class="dept-title">Civilian (CIV)</div>
-        <div class="dept-desc">The heart of San Aurie. Create stories, explore the city, and shape the world.</div>
-    </div>
-
-    <div class="dept-card">
-        <div class="dept-title">San Aurie Fire & Rescue (SAFR)</div>
-        <div class="dept-desc">Provides fire suppression, medical response, and rescue operations across the city.</div>
-    </div>
-
-    <div class="dept-card">
-        <div class="dept-title">San Aurie Metropolitan Police Department (SAMPD)</div>
-        <div class="dept-desc">Maintains public safety, enforces laws, and responds to emergencies throughout San Aurie.</div>
-    </div>
-
-    <div class="dept-card">
-        <div class="dept-title">San Aurie Department of Transportation (SADOT)</div>
-        <div class="dept-desc">Handles towing, road maintenance, traffic control, and city infrastructure support.</div>
-    </div>
-
-</div>
-
+<!-- FOOTER -->
 <div class="footer">
-    © 2026 RedLine RP — All Rights Reserved
+    &copy; 2026 RedLine RP &bull; All Rights Reserved
 </div>
+
+<script>
+    /* SCROLL CONTROLLER FOR TOP BAR FADE */
+    const topbar = document.querySelector(".topbar");
+    const scrollThreshold = 100; 
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > scrollThreshold) {
+            topbar.classList.add("hidden");
+        } else {
+            topbar.classList.remove("hidden");
+        }
+    });
+</script>
 
 </body>
 </html>
