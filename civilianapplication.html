@@ -16,6 +16,8 @@
             --blur-radius: 24px;
             --font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --success-green: #00e676;
+            --danger-red: #ff4d4d;
         }
 
         body {
@@ -32,7 +34,6 @@
             box-sizing: border-box;
         }
 
-        /* FIXED STICKY TOPBAR */
         .topbar {
             position: fixed;
             top: 0;
@@ -50,7 +51,6 @@
             transition: var(--transition-smooth);
         }
 
-        /* Smooth Hide/Show Utility Styles */
         .topbar.hidden {
             transform: translateY(-100%);
         }
@@ -86,7 +86,6 @@
             width: 100%;
         }
 
-        /* MAIN APP HUB CONTAINER */
         .main-container {
             width: 92%;
             max-width: 1000px;
@@ -102,7 +101,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* UNIFIED HUB WORKSPACE */
         .workspace-hub {
             background: var(--glass-panel-bg);
             backdrop-filter: blur(var(--blur-radius));
@@ -114,7 +112,6 @@
             box-sizing: border-box;
         }
 
-        /* HORIZONTAL INTEGRATED INFOBAR */
         .hub-header-zone {
             display: flex;
             align-items: center;
@@ -167,7 +164,29 @@
             font-weight: 400;
         }
 
-        /* COMPACT RIGHT-ALIGNED ACTION STACK */
+        .status-pill {
+            align-self: flex-start;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .status-pill.open {
+            background: rgba(0, 230, 118, 0.12);
+            border: 1px solid var(--success-green);
+            color: #b9ffd9;
+        }
+
+        .status-pill.closed {
+            background: rgba(255, 77, 77, 0.12);
+            border: 1px solid var(--danger-red);
+            color: #ffb3b3;
+        }
+
         .btn-container {
             display: flex;
             flex-direction: column;
@@ -213,7 +232,6 @@
             transform: translateY(-2px);
         }
 
-        /* FULL BREATHING AREA FOR IFRAME */
         .form-stage {
             position: relative;
             width: 100%;
@@ -231,7 +249,59 @@
             display: block;
         }
 
-        /* FOOTER */
+        .closed-container {
+            text-align: center;
+            padding: 80px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        .closed-icon {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--danger-red);
+            border-radius: 50%;
+            position: relative;
+            margin-bottom: 24px;
+            animation: pulse 2s infinite;
+        }
+
+        .closed-icon::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 3px;
+            background-color: var(--danger-red);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        .closed-title {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin: 0 0 12px 0;
+            color: #ffffff;
+        }
+
+        .closed-text {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 420px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
         .footer {
             text-align: center;
             margin: auto 0 30px 0;
@@ -241,7 +311,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* CLEAN RESPONSIVE WRAPPING BREAKPOINTS */
         @media (max-width: 900px) {
             .hub-header-zone {
                 flex-direction: column;
@@ -253,6 +322,9 @@
                 flex-direction: column;
                 text-align: center;
                 gap: 15px;
+            }
+            .status-pill {
+                align-self: center;
             }
             .btn-container {
                 min-width: 100%;
@@ -282,7 +354,6 @@
 
 <body>
 
-<!-- FIXED NAVIGATION SYSTEM -->
 <div class="topbar">
     <a href="home.html">Home</a>
     <a href="civilianapplication.html">Civilian Application</a>
@@ -290,22 +361,20 @@
     <a href="departments.html">Departments</a>
 </div>
 
-<!-- CENTRAL INTERFACE APP CANVASES -->
 <div class="main-container">
 
     <div class="workspace-hub">
         
-        <!-- HEADER MANAGEMENT PROFILE BOX -->
         <div class="hub-header-zone">
             <div class="branding-meta">
                 <img class="apply-header-img" src="https://i.ibb.co/d4bcyHwp/2.png" alt="RedLine RP Design Asset">
                 <div class="text-details">
+                    <div id="statusPill" class="status-pill"></div>
                     <h1>Civilian Entry Portal</h1>
                     <p>The best roleplay server you’ll ever experience inside San Aurie.</p>
                 </div>
             </div>
 
-            <!-- COMMUNITY VERIFICATION STACKS -->
             <div class="btn-container">
                 <a class="discord-btn" href="https://discord.gg/EgQfVurNMZ" target="_blank">
                     Join Our Discord (Required)
@@ -316,22 +385,42 @@
             </div>
         </div>
 
-        <!-- FORM EMISSION ENVIRONMENT -->
-        <div class="form-stage">
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScYhl_lUKsxTnMIzGH7KmmZYo0Cvm9ho8VwM4WOxSpF5zypOQ/viewform?embedded=true"></iframe>
-        </div>
+        <div class="form-stage" id="formStage"></div>
 
     </div>
 
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
     &copy; 2026 RedLine RP &bull; All Rights Reserved
 </div>
 
 <script>
-    /* SMART SCROLL DIRECTIONS NAVIGATION CONTROLLER */
+    const config = {
+        applicationsOpen: true
+    };
+
+    function initApplicationState() {
+        const pill = document.getElementById("statusPill");
+        const stage = document.getElementById("formStage");
+        
+        if (config.applicationsOpen) {
+            pill.textContent = "Applications Open";
+            pill.classList.add("open");
+            stage.innerHTML = `<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScYhl_lUKsxTnMIzGH7KmmZYo0Cvm9ho8VwM4WOxSpF5zypOQ/viewform?embedded=true"></iframe>`;
+        } else {
+            pill.textContent = "Applications Closed";
+            pill.classList.add("closed");
+            stage.innerHTML = `
+                <div class="closed-container">
+                    <div class="closed-icon"></div>
+                    <h2 class="closed-title">Recruitment Is Paused</h2>
+                    <p class="closed-text">Civilian applications are currently closed. Please join our Discord server and stay tuned to announcements for the next cycle.</p>
+                </div>
+            `;
+        }
+    }
+
     let lastScrollY = window.scrollY;
     const topbar = document.querySelector(".topbar");
 
@@ -343,6 +432,8 @@
         }
         lastScrollY = window.scrollY;
     });
+
+    initApplicationState();
 </script>
 
 </body>
