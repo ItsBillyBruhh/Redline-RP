@@ -56,6 +56,14 @@
             display: flex;
             justify-content: center;
             gap: 50px; /* Wider gap */
+            transition: var(--transition-smooth); /* Added for fade effect */
+        }
+
+        /* SCROLL FADE UTILITY CLASS */
+        .topbar.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-25px); /* Elegant slide-out look */
         }
 
         .topbar a {
@@ -346,7 +354,6 @@
 
 <body>
 
-<!-- FLOATING TOPBAR -->
 <div class="topbar">
     <a href="home.html">Home</a>
     <a href="apply.html">Civilian Application</a>
@@ -354,16 +361,13 @@
     <a href="departments.html">Departments</a>
 </div>
 
-<!-- FLOATING ANNOUNCEMENT BANNER -->
 <div id="announcement-banner">
     <span id="announcement-text">Waiting for private servers, feel free to apply for civilian!</span>
     <button id="announcement-close" aria-label="Close Announcement">✖</button>
 </div>
 
-<!-- CONTAINER REGION -->
 <div class="main-container">
 
-    <!-- UPPER DISPLAY HERO BLOCK -->
     <div class="hero-panel">
         <img class="hero-img" src="https://i.ibb.co/PZy08gcC/Icon.png" alt="RedLine RP Logo">
         <h1>Welcome to RedLine RP</h1>
@@ -375,10 +379,8 @@
         </div>
     </div>
 
-    <!-- 3-COLUMN LOWER GRID CORE -->
     <div class="dashboard-grid">
         
-        <!-- MODULE COLUMN 1 -->
         <div class="section-panel">
             <h2 class="section-title">What We Offer</h2>
             <div class="card-stack">
@@ -388,17 +390,15 @@
             </div>
         </div>
 
-        <!-- MODULE COLUMN 2 -->
         <div class="section-panel">
             <h2 class="section-title">Departments</h2>
             <div class="card-stack">
-                <div class="card">San Aurie Metropolitan Police</div>
+                <div class="card">San Aurie State Police</div>
                 <div class="card">San Aurie Fire & Rescue</div>
                 <div class="card">San Aurie DOT Services</div>
             </div>
         </div>
 
-        <!-- MODULE COLUMN 3 -->
         <div class="section-panel">
             <h2 class="section-title">Why Choose RedLine RP?</h2>
             <div class="card-stack">
@@ -412,12 +412,23 @@
 
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
     &copy; 2026 RedLine RP &bull; All Rights Reserved
 </div>
 
 <script>
+    /* SCROLL CONTROLLER FOR TOP BAR FADE */
+    const topbar = document.querySelector(".topbar");
+    const scrollThreshold = 100; // Pixels to scroll down before fading away
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > scrollThreshold) {
+            topbar.classList.add("hidden");
+        } else {
+            topbar.classList.remove("hidden");
+        }
+    });
+
     /* ANNOUNCEMENT BANNER DISMISSAL INITIALIZATION */
     const showAnnouncement = true; 
     const banner = document.getElementById("announcement-banner");
