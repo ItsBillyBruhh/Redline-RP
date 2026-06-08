@@ -9,10 +9,10 @@
 
     <style>
         :root {
-            --glass-panel-bg: rgba(255, 255, 255, 0.08);
-            --glass-card-bg: rgba(255, 255, 255, 0.12);
-            --glass-card-hover: rgba(255, 255, 255, 0.20);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.18);
+            --glass-panel-bg: rgba(255, 255, 255, 0.05);
+            --glass-card-bg: rgba(255, 255, 255, 0.08);
+            --glass-card-hover: rgba(255, 255, 255, 0.15);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.12);
             --blur-radius: 20px;
             --font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -27,9 +27,10 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(125deg, #ff7a7a, #ff8ed6, #6fb3ff);
+            /* Premium dark crimson & charcoal theme to perfectly fit RedLine RP */
+            background: linear-gradient(135deg, #140606, #0b0b0d, #260a0a, #0f0f12);
             background-size: 300% 300%;
-            animation: bgShift 16s ease infinite;
+            animation: bgShift 18s ease infinite;
             box-sizing: border-box;
         }
 
@@ -47,12 +48,12 @@
             width: 95%;
             max-width: 1500px;
             padding: 16px 0;
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(15, 15, 18, 0.4);
             backdrop-filter: blur(var(--blur-radius));
             -webkit-backdrop-filter: blur(var(--blur-radius));
             border-radius: 35px;
             border: var(--glass-border);
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
             display: flex;
             justify-content: center;
             gap: 50px;
@@ -70,14 +71,14 @@
             font-size: 16px;
             font-weight: 600;
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(255, 255, 255, 0.75);
             letter-spacing: 0.4px;
             transition: var(--transition-smooth);
             position: relative;
         }
 
         .topbar a:hover {
-            color: #ffffff;
+            color: #ff4d4d; /* Subtle themed highlight on hover */
         }
 
         .topbar a::after {
@@ -87,7 +88,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #ffffff;
+            background: #ff4d4d;
             transition: var(--transition-smooth);
             border-radius: 2px;
         }
@@ -107,12 +108,12 @@
             display: none; 
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 77, 77, 0.12); /* Crimson tinted glass tint */
             backdrop-filter: blur(var(--blur-radius));
             -webkit-backdrop-filter: blur(var(--blur-radius));
-            border: var(--glass-border);
+            border: 1px solid rgba(255, 77, 77, 0.25);
             border-radius: 18px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             animation: slideDown 0.4s ease forwards;
         }
 
@@ -128,14 +129,15 @@
             font-weight: 600;
             letter-spacing: 0.2px;
             white-space: pre-wrap;
+            color: #ff9999;
         }
         
-        /* Subtle blinking cursor for the typing effect */
         #announcement-text::after {
             content: '|';
             animation: cursorBlink 0.8s infinite;
             margin-left: 2px;
             font-weight: 400;
+            color: #ff4d4d;
         }
 
         @keyframes cursorBlink {
@@ -145,7 +147,7 @@
         #announcement-close {
             grid-column: 3;
             justify-self: end;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             border: none;
             border-radius: 50%;
             width: 28px;
@@ -160,7 +162,7 @@
         }
 
         #announcement-close:hover {
-            background: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 77, 77, 0.3);
             transform: scale(1.05);
         }
 
@@ -176,11 +178,9 @@
             opacity: 0;
             transform: translateY(15px);
             animation: fadeUp 0.6s ease forwards;
-            /* Added smooth layout adjustments when layout reflows */
             transition: margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease, transform 0.6s ease;
         }
 
-        /* Class injected via JS to fill space cleanly when banner is dropped */
         .main-container.shifted {
             margin-top: 110px;
         }
@@ -196,43 +196,43 @@
             -webkit-backdrop-filter: blur(var(--blur-radius));
             border-radius: 28px;
             border: var(--glass-border);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
-            padding: 55px 40px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+            padding: 60px 40px;
             text-align: center;
         }
 
-        /* HERO ICON - SCALED UP */
+        /* HERO LOGO - SIGNIFICANTLY ENLARGED */
         .hero-img {
-            width: 220px; /* Made the logo noticeably bigger */
+            width: 320px; /* Noticeably scaled up hero presence */
             height: auto;
             display: block;
             margin: 0 auto;
             background: none;
             border: none;
             box-shadow: none;
-            filter: drop-shadow(0 12px 24px rgba(0,0,0,0.22));
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.6));
             animation: float 6s ease-in-out infinite;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-10px); }
         }
 
         h1 {
-            font-size: 52px;
-            margin: 25px 0 12px 0;
+            font-size: 56px;
+            margin: 30px 0 12px 0;
             font-weight: 800;
-            letter-spacing: -0.8px;
-            background: linear-gradient(135deg, #ffffff 40%, #ffe6f2 100%);
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 60%, #ffb3b3 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         p {
             font-size: 22px;
-            margin: 0 0 35px 0;
-            color: rgba(255, 255, 255, 0.85);
+            margin: 0 0 40px 0;
+            color: rgba(255, 255, 255, 0.75);
             font-weight: 400;
         }
 
@@ -248,24 +248,24 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 15px 36px;
+            padding: 16px 38px;
             border-radius: 14px;
             text-decoration: none;
             font-size: 16px;
             font-weight: 700;
             transition: var(--transition-smooth);
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(5px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .discord-btn:hover, .roblox-btn:hover {
             transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.35);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            background: rgba(255, 77, 77, 0.2);
+            border-color: rgba(255, 77, 77, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 77, 77, 0.15);
         }
 
         /* DASHBOARD GRID Layout */
@@ -281,7 +281,7 @@
             -webkit-backdrop-filter: blur(var(--blur-radius));
             border-radius: 28px;
             border: var(--glass-border);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
             padding: 40px 32px;
             display: flex;
             flex-direction: column;
@@ -293,7 +293,7 @@
             margin: 0 0 30px 0;
             font-weight: 700;
             letter-spacing: -0.3px;
-            color: rgba(255, 255, 255, 0.95);
+            color: rgba(255, 255, 255, 0.9);
             text-align: center;
         }
 
@@ -309,10 +309,10 @@
             padding: 20px 24px;
             background: var(--glass-card-bg);
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             font-size: 16px;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.8);
             text-align: center;
             line-height: 1.5;
             transition: var(--transition-smooth);
@@ -321,8 +321,9 @@
         .card:hover {
             transform: scale(1.03);
             background: var(--glass-card-hover);
-            border-color: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-color: rgba(255, 77, 77, 0.3);
+            color: #ffffff;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
         }
 
         /* FOOTER */
@@ -331,7 +332,7 @@
             margin: 25px 0 35px 0;
             font-size: 14px;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.4);
             letter-spacing: 0.5px;
         }
 
@@ -362,6 +363,9 @@
             }
             .main-container.shifted {
                 margin-top: 95px;
+            }
+            .hero-img {
+                width: 200px; /* Scaled down smoothly on mobile layout viewports */
             }
             .btn-container {
                 flex-direction: column;
@@ -466,16 +470,14 @@
         if (charIndex < announcementMsg.length) {
             textEl.textContent += announcementMsg.charAt(charIndex);
             charIndex++;
-            setTimeout(startTypingEffect, 35); // Adjust typing speed here (in milliseconds)
+            setTimeout(startTypingEffect, 35); 
         }
     }
 
     if (showAnnouncement) {
         banner.style.display = "grid";
-        // Initialize typing effect shortly after the banner animations open up
         setTimeout(startTypingEffect, 400); 
     } else {
-        // Fallback layout initialization if announcement starts disabled
         mainContainer.classList.add("shifted");
     }
 
@@ -484,7 +486,6 @@
         banner.style.transform = "translateY(-10px)";
         banner.style.transition = "all 0.3s ease";
         
-        // Tells the main page layout container to cleanly shift up into place
         mainContainer.classList.add("shifted");
 
         setTimeout(() => {
