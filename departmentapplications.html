@@ -9,13 +9,16 @@
 
     <style>
         :root {
-            --glass-panel-bg: rgba(255, 255, 255, 0.05);
-            --glass-card-bg: rgba(255, 255, 255, 0.08);
-            --glass-card-hover: rgba(255, 255, 255, 0.15);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.12);
-            --blur-radius: 20px;
+            --logo-red: #ff1e46;
+            --logo-blue: #00a3ff;
+            --logo-pink: #ff007f;
+            --logo-amber: #ffe094;
+            
+            --glass-panel-bg: rgba(13, 9, 20, 0.78);
+            --glass-card-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
             --font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         body {
@@ -27,14 +30,14 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            /* Premium dark crimson & charcoal theme */
-            background: linear-gradient(135deg, #140606, #0b0b0d, #260a0a, #0f0f12);
-            background-size: 300% 300%;
-            animation: bgShift 18s ease infinite;
+            
+            background: linear-gradient(-45deg, var(--logo-red), #b0005a, var(--logo-blue), var(--logo-pink));
+            background-size: 400% 400%;
+            animation: flowingGradient 12s ease infinite;
             box-sizing: border-box;
         }
 
-        @keyframes bgShift {
+        @keyframes flowingGradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
@@ -46,21 +49,20 @@
             top: 20px;
             z-index: 9999;
             width: 95%;
-            max-width: 1500px;
-            padding: 16px 0;
-            background: rgba(15, 15, 18, 0.4);
-            backdrop-filter: blur(var(--blur-radius));
-            -webkit-backdrop-filter: blur(var(--blur-radius));
-            border-radius: 35px;
+            max-width: 1400px;
+            padding: 18px 0;
+            background: rgba(13, 9, 20, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 20px;
             border: var(--glass-border);
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: center;
-            gap: 50px;
+            gap: 45px;
             transition: var(--transition-smooth);
         }
 
-        /* SCROLL FADE UTILITY CLASS */
         .topbar.hidden {
             opacity: 0;
             pointer-events: none;
@@ -68,17 +70,18 @@
         }
 
         .topbar a {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             text-decoration: none;
             color: rgba(255, 255, 255, 0.75);
-            letter-spacing: 0.4px;
+            letter-spacing: 0.5px;
             transition: var(--transition-smooth);
             position: relative;
         }
 
         .topbar a:hover {
-            color: #ff4d4d;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         .topbar a::after {
@@ -88,7 +91,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #ff4d4d;
+            background: linear-gradient(90deg, var(--logo-blue), var(--logo-pink));
             transition: var(--transition-smooth);
             border-radius: 2px;
         }
@@ -97,71 +100,83 @@
             width: 100%;
         }
 
-        /* MAIN CONTENT WRAPPER */
+        /* MAIN ASYMMETRIC SPLIT LAYOUT */
         .main-container {
             width: 95%;
-            max-width: 1100px;
-            margin-top: 140px; 
+            max-width: 1400px;
+            margin-top: 130px; 
             margin-bottom: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             opacity: 0;
-            transform: translateY(15px);
-            animation: fadeUp 0.6s ease forwards;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
         }
 
         @keyframes fadeUp {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* GLASS CORE PANEL */
-        .glass-panel {
-            background: var(--glass-panel-bg);
-            backdrop-filter: blur(var(--blur-radius));
-            -webkit-backdrop-filter: blur(var(--blur-radius));
-            border-radius: 28px;
-            border: var(--glass-border);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
-            padding: 50px 40px;
-            text-align: center;
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 30px;
+            align-items: start;
             width: 100%;
+        }
+
+        /* LEFT SIDEBAR PANEL */
+        .info-panel {
+            background: var(--glass-panel-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 24px;
+            border: var(--glass-border);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+            padding: 40px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 24px;
+            position: sticky;
+            top: 110px;
         }
 
-        /* HEADER IMAGE SPLASH */
+        .status-pill {
+            align-self: flex-start;
+            background: rgba(255, 30, 70, 0.15);
+            border: 1px solid var(--logo-red);
+            color: #ffb3bf;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         .apply-header-img {
             width: 100%;
-            max-width: 600px;
-            border-radius: 18px;
-            margin-bottom: 25px;
-            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.5));
-            animation: float 6s ease-in-out infinite;
+            border-radius: 16px;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+            transition: var(--transition-smooth);
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        .info-panel:hover .apply-header-img {
+            transform: scale(1.02);
         }
 
-        p {
-            font-size: 20px;
-            margin: 0 0 35px 0;
-            color: rgba(255, 255, 255, 0.75);
-            font-weight: 400;
-            letter-spacing: 0.2px;
+        p.tagline {
+            font-size: 22px;
+            line-height: 1.4;
+            margin: 0;
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-        /* CTA BUTTON CONTAINERS */
         .btn-container {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
+            flex-direction: column;
+            gap: 12px;
             width: 100%;
         }
 
@@ -169,75 +184,111 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 16px 38px;
+            padding: 16px 24px;
             border-radius: 14px;
             text-decoration: none;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             transition: var(--transition-smooth);
-            background: rgba(255, 255, 255, 0.06);
             color: white;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .discord-btn {
+            background: linear-gradient(135deg, #5865F2, #404eed);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+        }
+
+        .discord-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .roblox-btn {
+            background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(5px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .discord-btn:hover, .roblox-btn:hover {
+        .roblox-btn:hover {
             transform: translateY(-3px);
-            background: rgba(255, 77, 77, 0.2);
-            border-color: rgba(255, 77, 77, 0.4);
-            box-shadow: 0 8px 25px rgba(255, 77, 77, 0.15);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
         }
 
-        /* INTEGRATED APPLICATION IFRAME */
+        /* RIGHT FORM PANEL */
+        .form-panel {
+            background: var(--glass-panel-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 24px;
+            border: var(--glass-border);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            box-sizing: border-box;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
         iframe {
             width: 100%;
-            max-width: 900px;
-            height: 900px;
+            height: 850px;
             border: none;
-            border-radius: 18px;
+            border-radius: 16px;
             background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.05);
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
         }
 
         /* FOOTER */
         .footer {
             text-align: center;
-            margin: 25px 0 35px 0;
-            font-size: 14px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.4);
+            margin: auto 0 35px 0;
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
             letter-spacing: 0.5px;
         }
 
         /* RESPONSIVE BREAKPOINTS */
+        @media (max-width: 1024px) {
+            .split-layout {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            .info-panel {
+                position: relative;
+                top: 0;
+                padding: 30px;
+            }
+            .form-panel {
+                padding: 15px;
+            }
+            iframe {
+                height: 800px;
+            }
+        }
+
         @media (max-width: 650px) {
             .topbar {
                 gap: 20px;
-                padding: 12px 0;
+                padding: 14px 10px;
+                top: 10px;
+                width: 92%;
             }
             .topbar a {
-                font-size: 13px;
+                font-size: 12px;
             }
             .main-container {
-                margin-top: 120px;
+                margin-top: 110px;
             }
-            .glass-panel {
-                padding: 35px 20px;
-            }
-            p {
-                font-size: 17px;
-            }
-            .btn-container {
-                flex-direction: column;
-                align-items: center;
-                gap: 14px;
-            }
-            .discord-btn, .roblox-btn {
-                width: 100%;
-                max-width: 400px;
-                box-sizing: border-box;
+            p.tagline {
+                font-size: 19px;
             }
             iframe {
                 height: 700px;
@@ -259,26 +310,32 @@
 <!-- COMPONENT MAIN SECTION WRAPPER -->
 <div class="main-container">
 
-    <!-- COHESIVE MAIN CARD -->
-    <div class="glass-panel">
-
-        <!-- Header Splash Artwork -->
-        <img class="apply-header-img" src="https://i.ibb.co/d4bcyHwp/2.png" alt="Apply to RedLine RP">
-
-        <p>The best roleplay server you’ll ever experience inside San Aurie.</p>
-
-        <!-- CTA REQUIREMENTS WRAPPER -->
-        <div class="btn-container">
-            <a class="discord-btn" href="https://discord.gg/EgQfVurNMZ" target="_blank">
-                Join Our Discord (Required)
-            </a>
-            <a class="roblox-btn" href="https://www.roblox.com/communities/668533941/RedLine-RP-Community#!/about" target="_blank">
-                Join Our Roblox Group (Required)
-            </a>
+    <!-- MODERN SIDE-BY-SIDE SPLIT ARCHITECTURE -->
+    <div class="split-layout">
+        
+        <!-- LEFT BRANDING & REQUIREMENTS OVERVIEW -->
+        <div class="info-panel">
+            <div class="status-pill">Applications Open</div>
+            
+            <img class="apply-header-img" src="https://i.ibb.co/d4bcyHwp/2.png" alt="Apply to RedLine RP">
+            
+            <p class="tagline">The best roleplay server you’ll ever experience inside San Aurie.</p>
+            
+            <div class="btn-container">
+                <a class="discord-btn" href="https://discord.gg/EgQfVurNMZ" target="_blank">
+                    Join Our Discord (Required)
+                </a>
+                <a class="roblox-btn" href="https://www.roblox.com/communities/668533941/RedLine-RP-Community#!/about" target="_blank">
+                    Join Our Roblox Group (Required)
+                </a>
+            </div>
         </div>
 
-        <!-- FORM EMISSION STAGE -->
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeYe7aBq6uYTyNYTqWzAO8oJ3tLgUMLWhdTZNIcc7Rzl3uRRA/viewform?embedded=true"></iframe>
+        <!-- RIGHT ENGAGEMENT APPLICATION ZONE -->
+        <div class="form-panel">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeYe7aBq6uYTyNYTqWzAO8oJ3tLgUMLWhdTZNIcc7Rzl3uRRA/viewform?embedded=true"></iframe>
+        </div>
+
     </div>
 
 </div>
