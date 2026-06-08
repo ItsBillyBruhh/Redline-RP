@@ -3,24 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Home | RedLine RP</title>
 
     <link rel="icon" type="image/png" href="https://i.ibb.co/bRgdHVyh/Untitled.png">
 
     <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-bg-hover: rgba(255, 255, 255, 0.16);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.18);
+            --blur-radius: 20px;
+            --font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            color: #fff;
+            font-family: var(--font-stack);
+            color: #ffffff;
             overflow-x: hidden;
-
             display: flex;
             flex-direction: column;
             align-items: center;
-
-            background: linear-gradient(120deg, #ff7a7a, #ff8ed6, #6fb3ff);
+            min-height: 100vh;
+            background: linear-gradient(125deg, #ff7a7a, #ff8ed6, #6fb3ff);
             background-size: 300% 300%;
-            animation: bgShift 14s ease infinite;
+            animation: bgShift 16s ease infinite;
         }
 
         @keyframes bgShift {
@@ -29,160 +37,193 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* TOPBAR */
+        /* FLOATING NAVIGATION PILL */
         .topbar {
-            width: 100%;
-            padding: 15px 0;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
+            position: fixed;
+            top: 20px;
+            z-index: 9999;
+            width: 90%;
+            max-width: 850px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(var(--blur-radius));
+            -webkit-backdrop-filter: blur(var(--blur-radius));
+            border-radius: 40px;
+            border: var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
             display: flex;
             justify-content: center;
-            gap: 40px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 99999;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            align-items: center;
+            gap: 30px;
+            transition: var(--transition-smooth);
         }
 
         .topbar a {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 15px;
+            font-weight: 600;
             text-decoration: none;
-            color: white;
-            animation: textGlow 3s ease-in-out infinite;
+            color: rgba(255, 255, 255, 0.85);
+            letter-spacing: 0.5px;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 4px 0;
         }
 
-        @keyframes textGlow {
-            0% { color: #ffffff; }
-            50% { color: #ffe6f2; }
-            100% { color: #ffffff; }
+        .topbar a:hover {
+            color: #ffffff;
         }
 
-        /* ANNOUNCEMENT BANNER */
-        #announcement-banner {
+        /* Modern Underline Hover Effect */
+        .topbar a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ffffff;
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+        }
+
+        .topbar a:hover::after {
             width: 100%;
-            padding: 15px 20px;
+        }
 
-            display: none;
-            display: grid;
+        /* FLOATING ANNOUNCEMENT BANNER */
+        #announcement-banner {
+            position: fixed;
+            top: 90px;
+            z-index: 9998;
+            width: 85%;
+            max-width: 750px;
+            padding: 10px 20px;
+            display: none; /* Controlled by JS */
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(var(--blur-radius));
+            -webkit-backdrop-filter: blur(var(--blur-radius));
+            border: var(--glass-border);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
 
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(12px);
-
-            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 4px 18px rgba(0,0,0,0.25);
-
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-
-            position: fixed;
-            top: 60px;
-            left: 0;
-            z-index: 99998;
-
-            animation: slideDown 0.6s ease forwards;
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         #announcement-text {
             grid-column: 2;
             text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
         }
 
         #announcement-close {
             grid-column: 3;
             justify-self: end;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.2);
             border: none;
             border-radius: 50%;
-            padding: 5px 10px;
-            font-size: 16px;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
             color: white;
             cursor: pointer;
-            transition: 0.2s;
+            transition: var(--transition-smooth);
         }
 
         #announcement-close:hover {
             background: rgba(255, 255, 255, 0.35);
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
-        /* GLASS PANEL */
+        /* CENTRAL GLASS PANEL */
         .glass-panel {
             width: 90%;
-            max-width: 1100px;
-            margin-top: 160px;
-            padding: 40px 20px;
-
-            background: rgba(255, 255, 255, 0.10);
-            backdrop-filter: blur(18px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.20);
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
-
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeSlideUp 1.2s ease forwards;
+            max-width: 1000px;
+            margin-top: 170px;
+            margin-bottom: 40px;
+            padding: 50px 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--blur-radius));
+            -webkit-backdrop-filter: blur(var(--blur-radius));
+            border-radius: 32px;
+            border: var(--glass-border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
             text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* HERO IMAGE */
         .hero-img {
-            width: 60%;
-            max-width: 380px;
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
             display: block;
             margin: 0 auto;
-            border-radius: 15px;
-            animation: float 4s ease-in-out infinite, fadeIn 1.4s ease forwards;
-            opacity: 0;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            border-radius: 28px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            animation: float 5s ease-in-out infinite;
         }
 
         @keyframes float {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-8px); }
             100% { transform: translateY(0px); }
         }
 
         h1 {
-            font-size: 48px;
-            margin-top: 25px;
-            font-weight: 900;
-            background: linear-gradient(90deg, #ffffff, #ffe6f2, #ffffff);
-            background-size: 200% 200%;
+            font-size: 44px;
+            margin: 25px 0 12px 0;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 30%, #ffe6f2 100%);
             -webkit-background-clip: text;
-            color: transparent;
-            animation: bgShift 6s linear infinite;
+            -webkit-text-fill-color: transparent;
         }
 
         p {
-            font-size: 20px;
-            margin-top: -10px;
-            color: rgba(255, 255, 255, 0.75);
-            text-shadow: 0 0 6px rgba(0, 0, 0, 0.35);
+            font-size: 18px;
+            margin-bottom: 35px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 400;
         }
 
-        .btn, .discord-btn, .roblox-btn {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 14px 28px;
-            border-radius: 10px;
+        /* BUTTONS */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .discord-btn, .roblox-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            border-radius: 14px;
             text-decoration: none;
-            font-size: 18px;
-            font-weight: bold;
-            transition: 0.2s;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         }
 
         .discord-btn {
@@ -195,87 +236,134 @@
             color: white;
         }
 
-        .btn:hover, .discord-btn:hover, .roblox-btn:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
+        .discord-btn:hover, .roblox-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            filter: brightness(1.1);
         }
 
+        .discord-btn:active, .roblox-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* SECTION TITLES */
         .section-title {
-            font-size: 32px;
-            margin-top: 40px;
-            font-weight: 800;
-            background: linear-gradient(90deg, #ffffff, #ffe6f2, #ffffff);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            color: transparent;
-            animation: bgShift 6s linear infinite;
+            font-size: 26px;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        .section-title::before, .section-title::after {
+            content: '';
+            flex: 1;
+            max-width: 60px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.25);
+            margin: 0 15px;
+        }
+
+        /* CARD SYSTEM */
         .card-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 25px;
-            margin-top: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
         }
 
         .card {
-            width: 280px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.12);
-            border-radius: 15px;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            text-align: center;
-            transition: 0.2s;
+            padding: 24px 20px;
+            background: var(--glass-bg);
+            border-radius: 18px;
+            border: var(--glass-border);
+            font-size: 15px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .card:hover {
-            transform: scale(1.03);
-            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-4px);
+            background: var(--glass-bg-hover);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
+        /* FOOTER */
         .footer {
             text-align: center;
-            margin: 40px 0 20px 0;
-            font-size: 14px;
-            opacity: 0.7;
+            margin-bottom: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive Mobile Tweak */
+        @media (max-width: 600px) {
+            .topbar {
+                gap: 15px;
+                padding: 10px 15px;
+            }
+            .topbar a {
+                font-size: 13px;
+            }
+            .glass-panel {
+                padding: 35px 20px;
+                margin-top: 140px;
+            }
+            h1 {
+                font-size: 32px;
+            }
+            .btn-container {
+                flex-direction: column;
+                width: 100%;
+            }
+            .discord-btn, .roblox-btn {
+                width: 100%;
+                box-sizing: border-box;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
     <a href="home.html">Home</a>
-    <a href="apply.html">Civilian Application</a>
-    <a href="departmentapplications.html">Department Applications</a>
+    <a href="apply.html">Civilian</a>
+    <a href="departmentapplications.html">Applications</a>
     <a href="departments.html">Departments</a>
 </div>
 
-<!-- ANNOUNCEMENT -->
 <div id="announcement-banner">
     <span id="announcement-text">Waiting for private servers, feel free to apply for civilian!</span>
-    <button id="announcement-close">✖</button>
+    <button id="announcement-close" aria-label="Close Announcement">✖</button>
 </div>
 
 <div class="glass-panel">
 
-    <img class="hero-img" src="https://i.ibb.co/PZy08gcC/Icon.png">
+    <img class="hero-img" src="https://i.ibb.co/PZy08gcC/Icon.png" alt="RedLine RP Logo">
     <h1>Welcome to RedLine RP</h1>
-
     <p>The best roleplay server you’ll ever experience inside San Aurie.</p>
 
-    <!-- DISCORD REQUIRED -->
-    <a class="discord-btn" href="https://discord.gg/EgQfVurNMZ" target="_blank">
-        Join Our Discord (Required)
-    </a>
-
-    <!-- ROBLOX GROUP REQUIRED -->
-    <a class="roblox-btn" href="https://www.roblox.com/communities/668533941/RedLine-RP-Community#!/about" target="_blank">
-        Join Our Roblox Group (Required)
-    </a>
+    <div class="btn-container">
+        <a class="discord-btn" href="https://discord.gg/EgQfVurNMZ" target="_blank">
+            Join Our Discord (Required)
+        </a>
+        <a class="roblox-btn" href="https://www.roblox.com/communities/668533941/RedLine-RP-Community#!/about" target="_blank">
+            Join Our Roblox Group (Required)
+        </a>
+    </div>
 
     <h2 class="section-title">What We Offer</h2>
     <div class="card-container">
@@ -301,18 +389,28 @@
 </div>
 
 <div class="footer">
-    © 2026 RedLine RP — All Rights Reserved
+    &copy; 2026 RedLine RP &bull; All Rights Reserved
 </div>
 
 <script>
-    /* ANNOUNCEMENT CONTROL */
-    let showAnnouncement = true; 
+    /* ANNOUNCEMENT BANNER MANAGEMENT */
+    const showAnnouncement = true; 
     const banner = document.getElementById("announcement-banner");
     const closeBtn = document.getElementById("announcement-close");
 
-    if (showAnnouncement === true) {
+    if (showAnnouncement) {
         banner.style.display = "grid";
-    };
+    }
+
+    // Handler added to make close button operational
+    closeBtn.addEventListener("click", () => {
+        banner.style.opacity = "0";
+        banner.style.transform = "translateY(-10px)";
+        banner.style.transition = "all 0.3s ease";
+        setTimeout(() => {
+            banner.style.display = "none";
+        }, 300);
+    });
 </script>
 
 </body>
